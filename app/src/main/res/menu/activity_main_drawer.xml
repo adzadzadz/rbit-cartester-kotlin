@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/menu_dashboard" android:id="@+id/menuDashboard" android:onClick="onMenuItemClick"/>
+    <item android:title="@string/menu_profile" android:id="@+id/menuProfile" android:onClick="onMenuItemClick"/>
+    <item android:title="@string/menu_login" android:id="@+id/menuLogin" android:onClick="onMenuItemClick"/>
+</menu>
