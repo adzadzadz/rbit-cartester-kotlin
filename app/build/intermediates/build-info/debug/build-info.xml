@@ -2,86 +2,81 @@
 <instant-run
     abi="x86"
     api-level="28"
-    build-mode="COLD"
+    build-mode="FULL"
     density="420dpi"
     format="10"
+    ir-eligibility="CLASS_ADDED"
     plugin-version="3.4.1"
-    timestamp="1560155058729"
+    timestamp="1560159150857"
     token="-2992275079460400664"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="548" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="62" />
     <task
         name="verifier"
-        duration="0" />
+        duration="84" />
+
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/resources/instant-run/debug/resources-debug.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
+        type="SPLIT" />
+    <artifact
+        location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
+        type="SPLIT_MAIN" />
 
     <build
         build-mode="FULL"
-        timestamp="1560154968939"
-        verifier="FULL_BUILD_REQUESTED" >
+        ir-eligibility="CLASS_ADDED"
+        timestamp="1560159150857"
+        verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/resources/instant-run/debug/resources-debug.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
-            type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="COLD"
-        timestamp="1560155031837"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
             location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/dep/dependencies.apk"
             type="SPLIT" />
         <artifact
             location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_1.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
-            type="SPLIT" />
-        <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
             type="SPLIT" />
         <artifact
             location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_5.apk"
@@ -90,16 +85,22 @@
             location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_4.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
-            type="SPLIT" />
-        <artifact
             location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_0.apk"
             type="SPLIT" />
         <artifact
-            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
+            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_2.apk"
+            type="SPLIT" />
+        <artifact
+            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_3.apk"
+            type="SPLIT" />
+        <artifact
+            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_6.apk"
             type="SPLIT" />
         <artifact
             location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_8.apk"
+            type="SPLIT" />
+        <artifact
+            location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_9.apk"
             type="SPLIT" />
         <artifact
             location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/split-apk/debug/slices/slice_7.apk"
@@ -108,9 +109,5 @@
             location="/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/instant-run-apk/debug/app-debug.apk"
             type="SPLIT_MAIN" />
     </build>
-    <build
-        build-mode="COLD"
-        timestamp="1560155058729"
-        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>
