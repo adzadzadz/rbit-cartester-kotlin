@@ -1196,7 +1196,6 @@ id icon_group
 id icon_only
 id ifRoom
 id image
-id imageView
 id info
 id invisible
 id italic
@@ -1209,6 +1208,8 @@ id line1
 id line3
 id listMode
 id list_item
+id loading
+id login
 id map
 id masked
 id media_actions
@@ -1218,12 +1219,9 @@ id mini
 id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
-id nav_gallery
-id nav_home
-id nav_send
-id nav_share
-id nav_slideshow
-id nav_tools
+id nav_dashboard
+id nav_login
+id nav_profile
 id nav_view
 id navigation_header_container
 id never
@@ -1238,6 +1236,7 @@ id parallax
 id parent
 id parentPanel
 id parent_matrix
+id password
 id percent
 id pin
 id progress_circular
@@ -1301,6 +1300,8 @@ id textSpacerNoButtons
 id textSpacerNoTitle
 id textStart
 id textView
+id textView2
+id textView4
 id text_input_password_toggle
 id textinput_counter
 id textinput_error
@@ -1322,6 +1323,7 @@ id uniform
 id unlabeled
 id up
 id useLogo
+id username
 id view_offset_helper
 id visible
 id wide
@@ -1376,6 +1378,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_login
 layout activity_main
 layout activity_maps
 layout app_bar_main
@@ -1460,6 +1463,8 @@ string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string action_settings
+string action_sign_in
+string action_sign_in_short
 string app_name
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
@@ -1487,6 +1492,9 @@ string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string google_maps_key
 string hide_bottom_view_on_scroll_behavior
+string invalid_password
+string invalid_username
+string login_failed
 string menu_dashboard
 string menu_gallery
 string menu_home
@@ -1508,10 +1516,14 @@ string path_password_eye
 string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
 string path_password_strike_through
+string prompt_email
+string prompt_password
 string search_menu_title
 string status_bar_notification_info_overflow
+string title_activity_login
 string title_activity_main
 string title_activity_maps
+string welcome
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

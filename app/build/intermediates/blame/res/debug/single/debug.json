@@ -764,6 +764,10 @@
         "source": "/Users/adz/.gradle/caches/transforms-2/files-2.1/2800ce75dea834f5416704b76ff4151e/res/layout/abc_action_bar_title_item.xml"
     },
     {
+        "merged": "/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/res/merged/debug/layout_activity_login.xml.flat",
+        "source": "/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/src/main/res/layout/activity_login.xml"
+    },
+    {
         "merged": "/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_abc_textfield_default_mtrl_alpha.9.png.flat",
         "source": "/Users/adz/.gradle/caches/transforms-2/files-2.1/2800ce75dea834f5416704b76ff4151e/res/drawable-xxhdpi-v4/abc_textfield_default_mtrl_alpha.9.png"
     },
