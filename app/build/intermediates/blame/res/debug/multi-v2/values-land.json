@@ -1,10 +1,20 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
+            "outputFile": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-land\\values-land.xml",
             "map": [
                 {
-                    "source": "/Users/adz/.gradle/caches/transforms-2/files-2.1/e8feb8147642d4affb01d9dc0f93a119/res/values-land/values-land.xml",
+                    "source": "C:\\Users\\adzbi\\.gradle\\caches\\transforms-2\\files-2.1\\dee83a9ddf5c425cbbac5ce903e1a518\\res\\values-land\\values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,125,196",
+                        "endColumns": "69,70,67",
+                        "endOffsets": "120,191,259"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\adzbi\\.gradle\\caches\\transforms-2\\files-2.1\\951df06194a9fc2c4f079105885ea48f\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -20,16 +30,6 @@
                         "endLines": "8",
                         "endColumns": "10",
                         "endOffsets": "431"
-                    }
-                },
-                {
-                    "source": "/Users/adz/.gradle/caches/transforms-2/files-2.1/2800ce75dea834f5416704b76ff4151e/res/values-land/values-land.xml",
-                    "from": {
-                        "startLines": "2,3,4",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,125,196",
-                        "endColumns": "69,70,67",
-                        "endOffsets": "120,191,259"
                     }
                 }
             ]

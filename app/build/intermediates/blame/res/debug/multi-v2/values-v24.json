@@ -1,10 +1,20 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
+            "outputFile": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v24\\values-v24.xml",
             "map": [
                 {
-                    "source": "/Users/adz/.gradle/caches/transforms-2/files-2.1/1a3e46d417ee60da01347a0a88ba5ec8/res/values-v24/values-v24.xml",
+                    "source": "C:\\Users\\adzbi\\.gradle\\caches\\transforms-2\\files-2.1\\dee83a9ddf5c425cbbac5ce903e1a518\\res\\values-v24\\values-v24.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,212",
+                        "endColumns": "156,134",
+                        "endOffsets": "207,342"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\adzbi\\.gradle\\caches\\transforms-2\\files-2.1\\eb8558c37fd4d18a6f0be25693622554\\res\\values-v24\\values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -18,16 +28,6 @@
                         "startOffsets": "347,413,474,540",
                         "endColumns": "65,60,65,66",
                         "endOffsets": "408,469,535,602"
-                    }
-                },
-                {
-                    "source": "/Users/adz/.gradle/caches/transforms-2/files-2.1/2800ce75dea834f5416704b76ff4151e/res/values-v24/values-v24.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,212",
-                        "endColumns": "156,134",
-                        "endOffsets": "207,342"
                     }
                 }
             ]

@@ -8,6 +8,8 @@ import com.adriansaycon.rbit_cartester.data.LoginRepository
 import com.adriansaycon.rbit_cartester.data.Result
 
 import com.adriansaycon.rbit_cartester.R
+import com.adriansaycon.rbit_cartester.rest.Model
+import retrofit2.http.Body
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
@@ -17,14 +19,14 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(username: String, password: String) {
+    fun login(body: Model?, restResult: Boolean) {
         // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
+        val result = loginRepository.login(body)
 
-        if (result is Result.Success) {
+        if (result is Result.Success && restResult) {
             _loginResult.value = LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
         } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
+            _loginForm.value = LoginFormState(passwordError = R.string.login_failed, usernameError = R.string.login_failed)
         }
     }
 

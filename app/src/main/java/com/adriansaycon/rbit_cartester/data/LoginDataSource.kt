@@ -1,6 +1,9 @@
 package com.adriansaycon.rbit_cartester.data
 
 import com.adriansaycon.rbit_cartester.data.model.LoggedInUser
+import com.adriansaycon.rbit_cartester.rest.Client
+import com.adriansaycon.rbit_cartester.rest.Model
+import retrofit2.http.Body
 import java.io.IOException
 
 /**
@@ -8,11 +11,12 @@ import java.io.IOException
  */
 class LoginDataSource {
 
-    fun login(username: String, password: String): Result<LoggedInUser> {
+    fun login(body: Model?): Result<LoggedInUser> {
         try {
             // TODO: handle loggedInUser authentication
-            val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
-            return Result.Success(fakeUser)
+//            val user = LoggedInUser("","","")
+            val user = LoggedInUser(body?.result?.token.toString(), body?.result?.userId.toString(), body?.result?.displayName.toString())
+            return Result.Success(user)
         } catch (e: Throwable) {
             return Result.Error(IOException("Error logging in", e))
         }

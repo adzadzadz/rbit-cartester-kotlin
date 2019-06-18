@@ -17,6 +17,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.adriansaycon.rbit_cartester.R
 import com.adriansaycon.rbit_cartester.MainActivity
+import com.adriansaycon.rbit_cartester.rest.Client
 
 class LoginActivity : AppCompatActivity() {
 
@@ -83,20 +84,22 @@ class LoginActivity : AppCompatActivity() {
                 )
             }
 
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString()
-                        )
-                }
-                false
-            }
+//            setOnEditorActionListener { _, actionId, _ ->
+//                when (actionId) {
+//                    EditorInfo.IME_ACTION_DONE ->
+//                        loginViewModel.login(
+//                            username.text.toString(),
+//                            password.text.toString()
+//                        )
+//                }
+//                false
+//            }
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+
+                val restClient = Client()
+                restClient.login(username.text.toString(), password.text.toString(), loginViewModel, loading)
             }
         }
     }

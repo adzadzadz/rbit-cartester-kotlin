@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/adz/Projects/freelancing/rbit/cartester-android-04/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hdpi-v4/values-hdpi-v4.xml",
+            "outputFile": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hdpi-v4\\values-hdpi-v4.xml",
             "map": [
                 {
-                    "source": "/Users/adz/.gradle/caches/transforms-2/files-2.1/2800ce75dea834f5416704b76ff4151e/res/values-hdpi-v4/values-hdpi-v4.xml",
+                    "source": "C:\\Users\\adzbi\\.gradle\\caches\\transforms-2\\files-2.1\\dee83a9ddf5c425cbbac5ce903e1a518\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

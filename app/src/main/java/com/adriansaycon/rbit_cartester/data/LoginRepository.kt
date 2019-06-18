@@ -1,6 +1,8 @@
 package com.adriansaycon.rbit_cartester.data
 
 import com.adriansaycon.rbit_cartester.data.model.LoggedInUser
+import com.adriansaycon.rbit_cartester.rest.Model
+import retrofit2.http.Body
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -27,9 +29,9 @@ class LoginRepository(val dataSource: LoginDataSource) {
         dataSource.logout()
     }
 
-    fun login(username: String, password: String): Result<LoggedInUser> {
+    fun login(body: Model?): Result<LoggedInUser> {
         // handle login
-        val result = dataSource.login(username, password)
+        val result = dataSource.login(body)
 
         if (result is Result.Success) {
             setLoggedInUser(result.data)
