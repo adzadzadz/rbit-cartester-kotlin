@@ -8,7 +8,9 @@ MERGED from [com.google.android.material:material:1.0.0] C:\Users\adzbi\.gradle\
 MERGED from [androidx.appcompat:appcompat:1.0.2] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\dee83a9ddf5c425cbbac5ce903e1a518\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core-ktx:1.0.2] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\ab2057cd3a767db19fa7e6bf31400d2c\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.gms:play-services-maps:16.1.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\367bf5c184eef5e076bd4d01304fa742\AndroidManifest.xml:17:1-38:12
+MERGED from [com.google.android.gms:play-services-location:15.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\737303399aadf02608b08ad4d2368ffc\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\17840833282d6877bf15e206aca40d17\AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-places-placereport:15.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\b06019c66def4386ff31a3628c2fcde2\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\27f6e5589d642bf7df6755c65378fb2a\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\c614c843526fe8a656e4de88cb44c274\AndroidManifest.xml:17:1-28:12
 MERGED from [androidx.legacy:legacy-support-v4:1.0.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\4c2495648b18afbab7a673150bdd2648\AndroidManifest.xml:17:1-22:12
@@ -78,8 +80,12 @@ MERGED from [com.google.android.material:material:1.0.0] C:\Users\adzbi\.gradle\
 MERGED from [com.google.android.material:material:1.0.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\951df06194a9fc2c4f079105885ea48f\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-maps:16.1.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\367bf5c184eef5e076bd4d01304fa742\AndroidManifest.xml:30:5-36:19
 MERGED from [com.google.android.gms:play-services-maps:16.1.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\367bf5c184eef5e076bd4d01304fa742\AndroidManifest.xml:30:5-36:19
+MERGED from [com.google.android.gms:play-services-location:15.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\737303399aadf02608b08ad4d2368ffc\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-location:15.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\737303399aadf02608b08ad4d2368ffc\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\17840833282d6877bf15e206aca40d17\AndroidManifest.xml:22:5-27:19
 MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\17840833282d6877bf15e206aca40d17\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-places-placereport:15.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\b06019c66def4386ff31a3628c2fcde2\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-places-placereport:15.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\b06019c66def4386ff31a3628c2fcde2\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\27f6e5589d642bf7df6755c65378fb2a\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\27f6e5589d642bf7df6755c65378fb2a\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\c614c843526fe8a656e4de88cb44c274\AndroidManifest.xml:22:5-26:19
@@ -170,8 +176,12 @@ MERGED from [androidx.core:core-ktx:1.0.2] C:\Users\adzbi\.gradle\caches\transfo
 MERGED from [androidx.core:core-ktx:1.0.2] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\ab2057cd3a767db19fa7e6bf31400d2c\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-maps:16.1.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\367bf5c184eef5e076bd4d01304fa742\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-maps:16.1.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\367bf5c184eef5e076bd4d01304fa742\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-location:15.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\737303399aadf02608b08ad4d2368ffc\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-location:15.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\737303399aadf02608b08ad4d2368ffc\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\17840833282d6877bf15e206aca40d17\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-base:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\17840833282d6877bf15e206aca40d17\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-places-placereport:15.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\b06019c66def4386ff31a3628c2fcde2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-places-placereport:15.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\b06019c66def4386ff31a3628c2fcde2\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\27f6e5589d642bf7df6755c65378fb2a\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-tasks:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\27f6e5589d642bf7df6755c65378fb2a\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-basement:16.0.1] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\c614c843526fe8a656e4de88cb44c274\AndroidManifest.xml:20:5-44

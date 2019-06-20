@@ -1,9 +1,7 @@
 package com.adriansaycon.rbit_cartester.data
 
 import com.adriansaycon.rbit_cartester.data.model.LoggedInUser
-import com.adriansaycon.rbit_cartester.rest.Client
-import com.adriansaycon.rbit_cartester.rest.Model
-import retrofit2.http.Body
+import com.adriansaycon.rbit_cartester.rest.models.Login
 import java.io.IOException
 
 /**
@@ -11,7 +9,7 @@ import java.io.IOException
  */
 class LoginDataSource {
 
-    fun login(body: Model?): Result<LoggedInUser> {
+    fun login(body: Login?): Result<LoggedInUser> {
         try {
             // TODO: handle loggedInUser authentication
 //            val user = LoggedInUser("","","")

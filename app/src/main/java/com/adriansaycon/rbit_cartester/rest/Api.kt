@@ -1,9 +1,9 @@
 package com.adriansaycon.rbit_cartester.rest
 
+import com.adriansaycon.rbit_cartester.rest.models.Login
+import com.adriansaycon.rbit_cartester.rest.models.Required
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface Api {
 
@@ -12,6 +12,10 @@ interface Api {
     fun home(
         @Field("username") username : String,
         @Field("password") password : String
-    ) : Call<Model>
+    ) : Call<Login>
 
+    @GET("required-data")
+    fun requiredData(
+        @Header("Authorization") token : String
+    ) : Call<Required>
 }

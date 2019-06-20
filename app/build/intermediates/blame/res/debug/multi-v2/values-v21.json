@@ -84,10 +84,10 @@
                     "from": {
                         "startLines": "1",
                         "startColumns": "4",
-                        "startOffsets": "17",
+                        "startOffsets": "16",
                         "endLines": "5",
                         "endColumns": "12",
-                        "endOffsets": "244"
+                        "endOffsets": "239"
                     },
                     "to": {
                         "startLines": "6",

@@ -8,8 +8,7 @@ import com.adriansaycon.rbit_cartester.data.LoginRepository
 import com.adriansaycon.rbit_cartester.data.Result
 
 import com.adriansaycon.rbit_cartester.R
-import com.adriansaycon.rbit_cartester.rest.Model
-import retrofit2.http.Body
+import com.adriansaycon.rbit_cartester.rest.models.Login
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
@@ -19,7 +18,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(body: Model?, restResult: Boolean) {
+    fun login(body: Login?, restResult: Boolean) {
         // can be launched in a separate asynchronous job
         val result = loginRepository.login(body)
 
