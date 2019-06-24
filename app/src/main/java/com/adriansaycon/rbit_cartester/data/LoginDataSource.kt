@@ -11,8 +11,6 @@ class LoginDataSource {
 
     fun login(body: Login?): Result<LoggedInUser> {
         try {
-            // TODO: handle loggedInUser authentication
-//            val user = LoggedInUser("","","")
             val user = LoggedInUser(body?.result?.token.toString(), body?.result?.userId.toString(), body?.result?.displayName.toString())
             return Result.Success(user)
         } catch (e: Throwable) {
@@ -21,7 +19,8 @@ class LoginDataSource {
     }
 
     fun logout() {
-        // TODO: revoke authentication
+        // Logout by removing stored login_info
+        android.webkit.CookieManager.getInstance().setCookie("LOGIN_INFO", "")
     }
 }
 

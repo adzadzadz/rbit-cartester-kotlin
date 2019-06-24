@@ -86,7 +86,7 @@ class Client {
 
                 if (body?.status?.code == 200) {
                     val gson = Gson()
-                    val result = body?.result
+                    val result = body.result
                     val content = gson.toJson(result)
                     val filename = "required_form_data_contents"
                     activity.writeInternalFile(filename, content, Context.MODE_PRIVATE)

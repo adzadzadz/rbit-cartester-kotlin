@@ -114,9 +114,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setAction("Action", null).show()
             }
             R.id.nav_logout -> {
-                android.webkit.CookieManager.getInstance().setCookie("LOGIN_INFO", "")
-                val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
-                println("LOGIN_INFO : $loginInfo")
+
+
                 intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
