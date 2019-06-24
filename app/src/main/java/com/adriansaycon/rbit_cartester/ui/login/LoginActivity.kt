@@ -18,6 +18,7 @@ import android.widget.Toast
 import com.adriansaycon.rbit_cartester.R
 import com.adriansaycon.rbit_cartester.MainActivity
 import com.adriansaycon.rbit_cartester.rest.Client
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -28,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
 
         // verify login_info existence
         val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
+        println("LOGIN_INFO : LOGIN : $loginInfo")
         if (loginInfo != null) {
             intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -114,7 +116,7 @@ class LoginActivity : AppCompatActivity() {
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
-        
+
         Toast.makeText(
             applicationContext,
             "$welcome $displayName",

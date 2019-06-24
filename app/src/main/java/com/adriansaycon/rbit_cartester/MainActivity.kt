@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter
 import android.widget.ScrollView
 import android.widget.Spinner
 import androidx.core.content.ContextCompat
+import com.adriansaycon.rbit_cartester.data.LoginDataSource
 import com.adriansaycon.rbit_cartester.rest.Client
 import com.adriansaycon.rbit_cartester.rest.data.Required
 import com.adriansaycon.rbit_cartester.ui.login.LoginActivity
@@ -114,8 +115,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setAction("Action", null).show()
             }
             R.id.nav_logout -> {
-
-
+                val source = LoginDataSource()
+                source.logout()
                 intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }

@@ -21,6 +21,8 @@ class LoginDataSource {
     fun logout() {
         // Logout by removing stored login_info
         android.webkit.CookieManager.getInstance().setCookie("LOGIN_INFO", "")
+        val info = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
+        println("LOGIN_INFO : ${info != null}")
     }
 }
 
