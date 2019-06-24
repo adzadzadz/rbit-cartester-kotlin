@@ -6,6 +6,7 @@ import android.widget.ProgressBar
 import android.widget.Spinner
 import com.adriansaycon.rbit_cartester.MainActivity
 import com.adriansaycon.rbit_cartester.R
+import com.adriansaycon.rbit_cartester.rest.data.Class
 import com.adriansaycon.rbit_cartester.rest.models.Login
 import com.adriansaycon.rbit_cartester.rest.models.Required
 import com.adriansaycon.rbit_cartester.ui.login.LoginViewModel
@@ -81,20 +82,55 @@ class Client {
             override fun onResponse(call: Call<Required>, response: Response<Required>) {
                 val body = response.body()
                 if (body?.status?.code == 200) {
-                    println("ADZ REQ DATA : ${body.result}")
 
-
-                    val classList = listOf(Array)
+                    // Class preparation
+                    val classList = arrayListOf<String>()
                     body.result.classes.forEach {
-                        println("ADZ : LOOP : ${it.name}")
+                        classList.add(it.name)
+                        activity.classVals.add(it.id)
                     }
 
-//                    val classList = Arrays.asList(body?.result?.classes)
-                    println("ADZ LIST : $classList")
                     val spinnerClass: Spinner = view.findViewById(R.id.spinnerClass)
-                    var aa = ArrayAdapter(activity, android.R.layout.simple_spinner_item, body?.result?.classes)
-                    aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    spinnerClass.setAdapter(aa)
+                    val aaClass = ArrayAdapter(activity, android.R.layout.simple_spinner_item, classList)
+                    aaClass.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+                    spinnerClass.prompt = "Select Class"
+                    spinnerClass.adapter = aaClass
+                    // Class preparation - END
+
+                    // Car preparation
+                    val carList = arrayListOf<String>()
+                    body.result.cars.forEach {
+                        carList.add(it.name)
+                        activity.carVals.add(it.id)
+                    }
+
+                    val spinnerCar: Spinner = view.findViewById(R.id.spinnerCar)
+                    val aaCar = ArrayAdapter(activity, android.R.layout.simple_spinner_item, carList)
+                    aaCar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+                    spinnerCar.prompt = "Select Class"
+                    spinnerCar.adapter = aaCar
+                    // Car preparation - END
+
+                    // Student preparation
+                    val studentList = arrayListOf<String>()
+                    body.result.users.forEach {
+                        studentList.add(it.name)
+                        activity.studentVals.add(it.userId)
+                    }
+
+                    val spinnerStudent: Spinner = view.findViewById(R.id.spinnerStudent)
+                    val aaStudent = ArrayAdapter(activity, android.R.layout.simple_spinner_item, studentList)
+                    aaCar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+                    spinnerStudent.prompt = "Select Class"
+                    spinnerStudent.adapter = aaStudent
+                    // Student preparation - END
+
+                    println("ADZ - SELECTED : CLASS[${spinnerClass.selectedItem}]")
+                    println("ADZ - SELECTED : CLASS[${spinnerCar.selectedItem}]")
+                    println("ADZ - SELECTED : CLASS[${spinnerStudent.selectedItem}]")
 
                 } else {
                     println("ADZ REQ FAILED")

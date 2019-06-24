@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.View
+import android.widget.Spinner
 import androidx.core.content.ContextCompat
 import com.adriansaycon.rbit_cartester.rest.Client
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -34,6 +35,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    var classVals = arrayListOf<Int>()
+    var carVals   = arrayListOf<Int>()
+    var studentVals = arrayListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +56,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mapFragment.getMapAsync(this)
         // Map init - End
 
-        val fab: FloatingActionButton = findViewById(R.id.fabStart)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -117,6 +116,40 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun readyForm() {
         val client = Client()
         client.getRequiredData(this, findViewById(R.id.appCoordinatorLayout))
+
+        // Start FAB preparation
+        val start: FloatingActionButton = findViewById(R.id.fabStart)
+        start.setOnClickListener { view ->
+            val spinnerClass : Spinner = findViewById(R.id.spinnerClass)
+            val spinnerCar   : Spinner = findViewById(R.id.spinnerCar)
+            val spinnerStudent : Spinner = findViewById(R.id.spinnerStudent)
+
+            val selectedClass   = this.classVals.get(spinnerClass.selectedItemId.toInt())
+            val selectedCar     = this.carVals.get(spinnerCar.selectedItemId.toInt())
+            val selectedStudent = this.studentVals.get(spinnerStudent.selectedItemId.toInt())
+
+            Snackbar.make(view, "Values: class? $selectedClass, car? $selectedCar, student? $selectedStudent", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
+        // Start FAB preparation - END
+
+        // Pause FAB preparation
+        val pause: FloatingActionButton = findViewById(R.id.fabPause)
+        pause.setOnClickListener { view ->
+            val spinnerClass : Spinner = findViewById(R.id.spinnerClass)
+            Snackbar.make(view, "Selected value:  ${spinnerClass.selectedItem}, id? ${spinnerClass.selectedItemId}", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
+        // Pause FAB preparation - END
+
+        // Save FAB preparation
+        val save: FloatingActionButton = findViewById(R.id.fabSave)
+        save.setOnClickListener { view ->
+            val spinnerClass : Spinner = findViewById(R.id.spinnerClass)
+            Snackbar.make(view, "Selected value:  ${spinnerClass.selectedItem}, id? ${spinnerClass.selectedItemId}", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
+        // Save FAB preparation - END
     }
 
     /**

@@ -7,31 +7,75 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <Spinner
-                android:id="@+id/spinnerClass"
-                android:layout_width="250dp"
-                android:layout_height="42dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="76dp" app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-        />
-    <Spinner
-            android:id="@+id/spinnerCar"
-            android:layout_width="250dp"
-            android:layout_height="42dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.503"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerClass"/>
-    <Spinner
-            android:id="@+id/spinnerStudent"
-            android:layout_width="250dp"
-            android:layout_height="42dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.502" android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerCar"/>
+        <ScrollView
+                android:layout_width="355dp"
+                android:layout_height="380dp"
+                android:layout_marginTop="88dp" app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                android:background="#F7FFFFFF">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:visibility="visible" android:minHeight="500dp">
+                <TextView
+                        android:text="@string/spinner_class_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinnerClassTitle"
+                        app:layout_constraintBottom_toTopOf="@+id/spinnerClass"
+                        app:layout_constraintStart_toStartOf="@+id/spinnerClass" android:layout_marginStart="8dp"/>
+                <Spinner
+                        android:id="@+id/spinnerClass"
+                        android:layout_width="250dp"
+                        android:layout_height="42dp"
+                        android:visibility="visible"
+                        android:layout_marginTop="100dp"
+                        app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                <TextView
+                        android:text="@string/spinner_car_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinnerCarTitle"
+                        app:layout_constraintBottom_toTopOf="@+id/spinnerCar"
+                        app:layout_constraintStart_toStartOf="@+id/spinnerCar" android:layout_marginStart="8dp"/>
+                <Spinner
+                        android:id="@+id/spinnerCar"
+                        android:layout_width="250dp"
+                        android:layout_height="42dp"
+                        android:visibility="visible"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintTop_toBottomOf="@+id/spinnerClass" android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                <TextView
+                        android:text="@string/spinner_student_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinnerStudentTitle"
+                        app:layout_constraintBottom_toTopOf="@+id/spinnerStudent"
+                        app:layout_constraintStart_toStartOf="@+id/spinnerStudent" android:layout_marginStart="8dp"/>
+                <Spinner
+                        android:id="@+id/spinnerStudent"
+                        android:layout_width="250dp"
+                        android:layout_height="42dp"
+                        android:visibility="visible"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintTop_toBottomOf="@+id/spinnerCar" android:layout_marginStart="8dp"
+                        app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                <TextView
+                        android:text="@string/dropdown_actions_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/FormTitle" android:layout_marginTop="24dp"
+                        app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp" android:textSize="18sp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
