@@ -1,5 +1,6 @@
 package com.adriansaycon.rbit_cartester.rest
 
+import android.content.Context
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ProgressBar
@@ -10,6 +11,8 @@ import com.adriansaycon.rbit_cartester.rest.data.Class
 import com.adriansaycon.rbit_cartester.rest.models.Login
 import com.adriansaycon.rbit_cartester.rest.models.Required
 import com.adriansaycon.rbit_cartester.ui.login.LoginViewModel
+import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,7 +30,7 @@ class Client {
 
     private val baseUrl = "http://10.0.2.2:8080/rest/v1/app/"
 
-    val api : Api by lazy {
+    private val api : Api by lazy {
         val retrofit = Retrofit.Builder()
             .client(OkHttpClient().newBuilder().build())
             .baseUrl(baseUrl)
@@ -76,61 +79,21 @@ class Client {
         val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
         val call = api.requiredData("Bearer $loginInfo")
 
-        println("ADZ REQ PREP : ${call.request().headers()}")
         call.enqueue(object : Callback<Required> {
 
             override fun onResponse(call: Call<Required>, response: Response<Required>) {
                 val body = response.body()
+
                 if (body?.status?.code == 200) {
+                    val gson = Gson()
+                    val result = body?.result
+                    val content = gson.toJson(result)
+                    val filename = "required_form_data_contents"
+                    activity.writeInternalFile(filename, content, Context.MODE_PRIVATE)
+//                    activity.readInternalFile(filename)
 
-                    // Class preparation
-                    val classList = arrayListOf<String>()
-                    body.result.classes.forEach {
-                        classList.add(it.name)
-                        activity.classVals.add(it.id)
-                    }
-
-                    val spinnerClass: Spinner = view.findViewById(R.id.spinnerClass)
-                    val aaClass = ArrayAdapter(activity, android.R.layout.simple_spinner_item, classList)
-                    aaClass.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-                    spinnerClass.prompt = "Select Class"
-                    spinnerClass.adapter = aaClass
-                    // Class preparation - END
-
-                    // Car preparation
-                    val carList = arrayListOf<String>()
-                    body.result.cars.forEach {
-                        carList.add(it.name)
-                        activity.carVals.add(it.id)
-                    }
-
-                    val spinnerCar: Spinner = view.findViewById(R.id.spinnerCar)
-                    val aaCar = ArrayAdapter(activity, android.R.layout.simple_spinner_item, carList)
-                    aaCar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-                    spinnerCar.prompt = "Select Class"
-                    spinnerCar.adapter = aaCar
-                    // Car preparation - END
-
-                    // Student preparation
-                    val studentList = arrayListOf<String>()
-                    body.result.users.forEach {
-                        studentList.add(it.name)
-                        activity.studentVals.add(it.userId)
-                    }
-
-                    val spinnerStudent: Spinner = view.findViewById(R.id.spinnerStudent)
-                    val aaStudent = ArrayAdapter(activity, android.R.layout.simple_spinner_item, studentList)
-                    aaCar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-                    spinnerStudent.prompt = "Select Class"
-                    spinnerStudent.adapter = aaStudent
-                    // Student preparation - END
-
-                    println("ADZ - SELECTED : CLASS[${spinnerClass.selectedItem}]")
-                    println("ADZ - SELECTED : CLASS[${spinnerCar.selectedItem}]")
-                    println("ADZ - SELECTED : CLASS[${spinnerStudent.selectedItem}]")
+                    Snackbar.make(view.findViewById(R.id.fabStart), "Data has been stored for offline use.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
 
                 } else {
                     println("ADZ REQ FAILED")

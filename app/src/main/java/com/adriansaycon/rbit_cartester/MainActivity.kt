@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ScrollView
 import android.widget.Spinner
 import androidx.core.content.ContextCompat
@@ -31,6 +32,7 @@ import com.adriansaycon.rbit_cartester.data.model.LoggedInUser
 import com.adriansaycon.rbit_cartester.rest.Client
 import com.adriansaycon.rbit_cartester.rest.data.Car
 import com.adriansaycon.rbit_cartester.rest.data.Class
+import com.adriansaycon.rbit_cartester.rest.data.Required
 import com.adriansaycon.rbit_cartester.rest.data.User
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -42,6 +44,8 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.gson.Gson
+import com.google.gson.JsonElement
 import kotlinx.android.extensions.CacheImplementation
 import kotlinx.android.synthetic.main.actions_main.*
 import java.io.BufferedReader
@@ -120,8 +124,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Log.d("adz", "dashboard")
             }
             R.id.nav_sync -> {
-                Log.d("adz", "profile")
-                Snackbar.make(findViewById(R.id.fabStart), "Should store data offline.", Snackbar.LENGTH_LONG)
+                val client = Client()
+                client.getRequiredData(this, findViewById(R.id.appCoordinatorLayout))
+                Snackbar.make(findViewById(R.id.fabStart), "Syncing data.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             }
             R.id.nav_login -> {
@@ -134,45 +139,89 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun readyForm() {
-        val client = Client()
-        client.getRequiredData(this, findViewById(R.id.appCoordinatorLayout))
+        val gson = Gson()
+        val stringContent = readInternalFile("required_form_data_contents")
+        val result : Required = gson.fromJson(stringContent.toString(), Required::class.java)
+
+        // Class preparation
+        val classList = arrayListOf<String>()
+        result.classes.forEach {
+            classList.add(it.name)
+            classVals.add(it.id)
+        }
+
+        val spinnerClass: Spinner = findViewById(R.id.spinnerClass)
+        val aaClass = ArrayAdapter(this, android.R.layout.simple_spinner_item, classList)
+        aaClass.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinnerClass.prompt = "Select Class"
+        spinnerClass.adapter = aaClass
+        // Class preparation - END
+
+        // Car preparation
+        val carList = arrayListOf<String>()
+        result.cars.forEach {
+            carList.add(it.name)
+            carVals.add(it.id)
+        }
+
+        val spinnerCar: Spinner = findViewById(R.id.spinnerCar)
+        val aaCar = ArrayAdapter(this, android.R.layout.simple_spinner_item, carList)
+        aaCar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinnerCar.prompt = "Select Class"
+        spinnerCar.adapter = aaCar
+        // Car preparation - END
+
+        // Student preparation
+        val studentList = arrayListOf<String>()
+        result.users.forEach {
+            studentList.add(it.name)
+            studentVals.add(it.userId)
+        }
+
+        val spinnerStudent: Spinner = findViewById(R.id.spinnerStudent)
+        val aaStudent = ArrayAdapter(this, android.R.layout.simple_spinner_item, studentList)
+        aaCar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinnerStudent.prompt = "Select Class"
+        spinnerStudent.adapter = aaStudent
+        // Student preparation - END
 
         // Start FAB preparation
         val start: FloatingActionButton = findViewById(R.id.fabStart)
         start.setOnClickListener { view ->
             runStart(view)
         }
-        // Start FAB preparation - END
-
         // Pause FAB preparation
         val pause: FloatingActionButton = findViewById(R.id.fabPause)
         pause.setOnClickListener { view ->
             runPause(view)
         }
-        // Pause FAB preparation - END
-
         // Save FAB preparation
         val save: FloatingActionButton = findViewById(R.id.fabSave)
         save.setOnClickListener { view ->
             runStop(view)
 
         }
-        // Save FAB preparation - END
     }
 
-    private fun writeInternalFile(testerClass : Int, car : Int, student : Int, content : String) {
-        val dateTime = java.util.Calendar.getInstance()
-        testName = "$testerClass-$car-$student-training"
-        val filename = testName
-//        val fileContents = "${dateTime.time} - Start location tracker"
-        this.openFileOutput(filename, Context.MODE_APPEND).use {
+    fun writeInternalFile(filename: String?, content : String, mode : Int) {
+        if (filename == null) {
+            var filename = testName
+        }
+
+        this.openFileOutput(filename, mode).use {
             it.write(content.toByteArray())
 
         }
     }
 
-    private fun readInternalFile() {
-        val fis = openFileInput(testName)
+    fun readInternalFile(filename : String?): StringBuilder {
+        if (filename == null) {
+            var filename = testName
+        }
+        val fis = openFileInput(filename)
         val isr = InputStreamReader(fis)
         val bufferedReader = BufferedReader(isr)
         val sb = StringBuilder()
@@ -188,8 +237,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         } while (isNotNull)
 
-
         println("ADZ FILE_CONTENT : $sb")
+        return sb
     }
 
     /**
@@ -248,13 +297,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val selectedCar     = this.carVals[spinnerCar.selectedItemId.toInt()]
         val selectedStudent = this.studentVals[spinnerStudent.selectedItemId.toInt()]
 
+        testName = "$selectedClass-$selectedCar-$selectedStudent-training"
+
         // Location management
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
                 for (location in locationResult.locations){
                     println("ADZ LOCATION : ${location.longitude} : ${location.latitude}")
-                    writeInternalFile(selectedClass, selectedCar, selectedStudent, "{longitude : ${location.longitude}, latitude : ${location.latitude}}\n")
+                    writeInternalFile(
+                        null ,
+                        "{longitude : ${location.longitude}, latitude : ${location.latitude}}\n",
+                        Context.MODE_APPEND
+                    )
 
                     if (mMap !== null) {
                         val myLoc = LatLng(location.latitude, location.longitude)
@@ -299,7 +354,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      */
     private fun runStop(view : View) {
         fusedLocationClient.removeLocationUpdates(locationCallback)
-        readInternalFile()
+        readInternalFile(null)
 
         val formWrap : ScrollView = findViewById(R.id.formWrap)
         formWrap.visibility = View.VISIBLE
