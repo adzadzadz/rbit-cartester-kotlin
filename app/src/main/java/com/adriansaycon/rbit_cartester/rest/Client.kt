@@ -90,6 +90,7 @@ class Client {
                     val content = gson.toJson(result)
                     val filename = "required_form_data_contents"
                     activity.writeInternalFile(filename, content, Context.MODE_PRIVATE)
+                    activity.readyForm()
 //                    activity.readInternalFile(filename)
 
                     Snackbar.make(view.findViewById(R.id.fabStart), "Data has been stored for offline use.", Snackbar.LENGTH_LONG)
@@ -97,11 +98,16 @@ class Client {
 
                 } else {
                     println("ADZ REQ FAILED")
+                    Snackbar.make(view.findViewById(R.id.fabStart), "Failed. Please contact Administrator.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
                 }
             }
 
             override fun onFailure(call: Call<Required>, t: Throwable) {
                 println("Adz onFailure : ")
+                Snackbar.make(view.findViewById(R.id.fabStart), "Failed. Please check your internet.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+
                 t.printStackTrace()
             }
         })

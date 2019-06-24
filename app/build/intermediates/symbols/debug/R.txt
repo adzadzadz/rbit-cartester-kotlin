@@ -1224,7 +1224,7 @@ int id mtrl_child_content_container 0x7f080078
 int id mtrl_internal_children_alpha_tag 0x7f080079
 int id multiply 0x7f08007a
 int id nav_dashboard 0x7f08007b
-int id nav_login 0x7f08007c
+int id nav_logout 0x7f08007c
 int id nav_sync 0x7f08007d
 int id nav_view 0x7f08007e
 int id navigation_header_container 0x7f08007f

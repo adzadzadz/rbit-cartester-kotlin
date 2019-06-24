@@ -1225,7 +1225,7 @@ id mtrl_child_content_container
 id mtrl_internal_children_alpha_tag
 id multiply
 id nav_dashboard
-id nav_login
+id nav_logout
 id nav_sync
 id nav_view
 id navigation_header_container

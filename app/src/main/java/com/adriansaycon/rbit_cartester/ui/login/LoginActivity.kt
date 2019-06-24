@@ -26,6 +26,13 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // verify login_info existence
+        val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
+        if (loginInfo != null) {
+            intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         setContentView(R.layout.activity_login)
 
         val username = findViewById<EditText>(R.id.username)

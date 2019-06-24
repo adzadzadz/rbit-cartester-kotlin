@@ -1,17 +1,10 @@
 package com.adriansaycon.rbit_cartester
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.content.ContentProvider
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.location.Location
-import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.renderscript.RenderScript
 import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -28,28 +21,19 @@ import android.widget.ArrayAdapter
 import android.widget.ScrollView
 import android.widget.Spinner
 import androidx.core.content.ContextCompat
-import com.adriansaycon.rbit_cartester.data.model.LoggedInUser
 import com.adriansaycon.rbit_cartester.rest.Client
-import com.adriansaycon.rbit_cartester.rest.data.Car
-import com.adriansaycon.rbit_cartester.rest.data.Class
 import com.adriansaycon.rbit_cartester.rest.data.Required
-import com.adriansaycon.rbit_cartester.rest.data.User
+import com.adriansaycon.rbit_cartester.ui.login.LoginActivity
 import com.google.android.gms.location.*
 import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
 import com.google.gson.Gson
-import com.google.gson.JsonElement
-import kotlinx.android.extensions.CacheImplementation
-import kotlinx.android.synthetic.main.actions_main.*
 import java.io.BufferedReader
-import java.io.File
 import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
@@ -129,8 +113,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Snackbar.make(findViewById(R.id.fabStart), "Syncing data.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             }
-            R.id.nav_login -> {
-                Log.d("adz", "login")
+            R.id.nav_logout -> {
+                android.webkit.CookieManager.getInstance().setCookie("LOGIN_INFO", "")
+                val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
+                println("LOGIN_INFO : $loginInfo")
+                intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -138,7 +126,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    private fun readyForm() {
+    fun readyForm() {
         val gson = Gson()
         val stringContent = readInternalFile("required_form_data_contents")
         val result : Required = gson.fromJson(stringContent.toString(), Required::class.java)
@@ -207,10 +195,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun writeInternalFile(filename: String?, content : String, mode : Int) {
-        if (filename == null) {
-            var filename = testName
-        }
-
         this.openFileOutput(filename, mode).use {
             it.write(content.toByteArray())
 
@@ -218,9 +202,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun readInternalFile(filename : String?): StringBuilder {
-        if (filename == null) {
-            var filename = testName
-        }
         val fis = openFileInput(filename)
         val isr = InputStreamReader(fis)
         val bufferedReader = BufferedReader(isr)
@@ -306,23 +287,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 for (location in locationResult.locations){
                     println("ADZ LOCATION : ${location.longitude} : ${location.latitude}")
                     writeInternalFile(
-                        null ,
-                        "{longitude : ${location.longitude}, latitude : ${location.latitude}}\n",
+                        testName ,
+                        "{longitude : ${location.longitude}, latitude : ${location.latitude}}",
                         Context.MODE_APPEND
                     )
 
-                    if (mMap !== null) {
-                        val myLoc = LatLng(location.latitude, location.longitude)
-                        mMap.addMarker(MarkerOptions().position(myLoc).title("Test route"))
-//                        var options : PolylineOptions = PolylineOptions()
-//                        options.width(6)
-//                        options.color(Color.RED)
-//                        options.addAll(decodedPoints)
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc))
-
-//                        mMap.addPolyline()
-
-                    }
+                    val myLoc = LatLng(location.latitude, location.longitude)
+                    mMap.addMarker(MarkerOptions().position(myLoc).title("Test route"))
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc))
                 }
             }
         }
@@ -354,7 +326,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      */
     private fun runStop(view : View) {
         fusedLocationClient.removeLocationUpdates(locationCallback)
-        readInternalFile(null)
+        readInternalFile(testName)
 
         val formWrap : ScrollView = findViewById(R.id.formWrap)
         formWrap.visibility = View.VISIBLE

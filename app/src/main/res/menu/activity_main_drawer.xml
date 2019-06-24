@@ -11,8 +11,8 @@
                 android:id="@+id/nav_sync"
                 android:title="@string/menu_sync"/>
         <item
-                android:id="@+id/nav_login"
-                android:title="@string/menu_login"/>
+                android:id="@+id/nav_logout"
+                android:title="@string/menu_logout"/>
     </group>
 
 </menu>
