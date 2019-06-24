@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <Spinner
+                android:id="@+id/spinnerClass"
+                android:layout_width="250dp"
+                android:layout_height="42dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="76dp" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+        />
+    <Spinner
+            android:id="@+id/spinnerCar"
+            android:layout_width="250dp"
+            android:layout_height="42dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.503"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerClass"/>
+    <Spinner
+            android:id="@+id/spinnerStudent"
+            android:layout_width="250dp"
+            android:layout_height="42dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintHorizontal_bias="0.502" android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerCar"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" app:srcCompat="@android:drawable/ic_media_play"
+            android:id="@+id/fabStart"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="104dp"
+            android:layout_marginBottom="48dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:focusable="true"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" app:srcCompat="@android:drawable/ic_media_pause"
+            android:id="@+id/fabPause" app:layout_constraintEnd_toStartOf="@+id/fabSave"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toEndOf="@+id/fabStart"
+            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.473"
+            android:layout_marginBottom="48dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:focusable="true"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" app:srcCompat="@android:drawable/presence_busy"
+            android:id="@+id/fabSave" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="104dp" android:layout_marginBottom="48dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:focusable="true"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

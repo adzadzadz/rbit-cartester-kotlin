@@ -8,8 +8,8 @@
                 android:id="@+id/nav_dashboard"
                 android:title="@string/menu_dashboard"/>
         <item
-                android:id="@+id/nav_profile"
-                android:title="@string/menu_profile"/>
+                android:id="@+id/nav_sync"
+                android:title="@string/menu_sync"/>
         <item
                 android:id="@+id/nav_login"
                 android:title="@string/menu_login"/>

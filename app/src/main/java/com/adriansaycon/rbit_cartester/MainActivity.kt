@@ -17,7 +17,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
-import androidx.core.app.ActivityCompat
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.adriansaycon.rbit_cartester.rest.Client
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val client = Client()
-        client.getRequiredData()
+        // Prepare data required for car testing
+        readyForm()
 
         // Map init - Start
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mapFragment.getMapAsync(this)
         // Map init - End
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
+        val fab: FloatingActionButton = findViewById(R.id.fabStart)
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -100,18 +100,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 // Handle the camera action
                 Log.d("adz", "dashboard")
             }
-            R.id.nav_profile -> {
+            R.id.nav_sync -> {
                 Log.d("adz", "profile")
-
+                Snackbar.make(findViewById(R.id.fabStart), "Should store data offline.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
             }
             R.id.nav_login -> {
                 Log.d("adz", "login")
-
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun readyForm() {
+        val client = Client()
+        client.getRequiredData(this, findViewById(R.id.appCoordinatorLayout))
     }
 
     /**

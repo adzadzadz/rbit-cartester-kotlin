@@ -1,7 +1,11 @@
 package com.adriansaycon.rbit_cartester.rest
 
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.ProgressBar
+import android.widget.Spinner
+import com.adriansaycon.rbit_cartester.MainActivity
+import com.adriansaycon.rbit_cartester.R
 import com.adriansaycon.rbit_cartester.rest.models.Login
 import com.adriansaycon.rbit_cartester.rest.models.Required
 import com.adriansaycon.rbit_cartester.ui.login.LoginViewModel
@@ -13,6 +17,10 @@ import retrofit2.Call
 import retrofit2.Response
 import java.net.CookieManager
 import java.net.CookieStore
+import java.util.*
+import kotlin.collections.ArrayList
+
+
 
 class Client {
 
@@ -63,7 +71,7 @@ class Client {
      * Pulls the required data to start tracking locations
      * @void
      */
-    fun getRequiredData() {
+    fun getRequiredData(activity : MainActivity, view : View) {
         val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
         val call = api.requiredData("Bearer $loginInfo")
 
@@ -74,6 +82,20 @@ class Client {
                 val body = response.body()
                 if (body?.status?.code == 200) {
                     println("ADZ REQ DATA : ${body.result}")
+
+
+                    val classList = listOf(Array)
+                    body.result.classes.forEach {
+                        println("ADZ : LOOP : ${it.name}")
+                    }
+
+//                    val classList = Arrays.asList(body?.result?.classes)
+                    println("ADZ LIST : $classList")
+                    val spinnerClass: Spinner = view.findViewById(R.id.spinnerClass)
+                    var aa = ArrayAdapter(activity, android.R.layout.simple_spinner_item, body?.result?.classes)
+                    aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinnerClass.setAdapter(aa)
+
                 } else {
                     println("ADZ REQ FAILED")
                 }

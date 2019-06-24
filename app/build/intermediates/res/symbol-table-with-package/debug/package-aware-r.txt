@@ -1134,6 +1134,7 @@ id adjust_width
 id alertTitle
 id all
 id always
+id appCoordinatorLayout
 id async
 id auto
 id barrier
@@ -1177,7 +1178,9 @@ id enterAlwaysCollapsed
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
-id fab
+id fabPause
+id fabSave
+id fabStart
 id fill
 id fill_horizontal
 id fill_vertical
@@ -1221,7 +1224,7 @@ id mtrl_internal_children_alpha_tag
 id multiply
 id nav_dashboard
 id nav_login
-id nav_profile
+id nav_sync
 id nav_view
 id navigation_header_container
 id never
@@ -1277,6 +1280,9 @@ id snackbar_text
 id snap
 id snapMargins
 id spacer
+id spinnerCar
+id spinnerClass
+id spinnerStudent
 id split_action_bar
 id spread
 id spread_inside
@@ -1378,6 +1384,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout actions_main
 layout activity_login
 layout activity_main
 layout activity_maps
@@ -1504,6 +1511,7 @@ string menu_profile
 string menu_send
 string menu_share
 string menu_slideshow
+string menu_sync
 string menu_tools
 string mtrl_chip_close_icon_content_description
 string nav_header_desc
