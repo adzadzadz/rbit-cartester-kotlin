@@ -1,8 +1,12 @@
 package com.adriansaycon.rbit_cartester
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.ContentProvider
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -21,7 +25,11 @@ import android.view.View
 import android.widget.Spinner
 import androidx.core.content.ContextCompat
 import com.adriansaycon.rbit_cartester.rest.Client
+import com.adriansaycon.rbit_cartester.rest.data.Car
+import com.adriansaycon.rbit_cartester.rest.data.Class
+import com.adriansaycon.rbit_cartester.rest.data.User
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -29,11 +37,16 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.extensions.CacheImplementation
+import java.io.BufferedReader
+import java.io.File
+import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
 
     var classVals = arrayListOf<Int>()
     var carVals   = arrayListOf<Int>()
@@ -124,9 +137,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val spinnerCar   : Spinner = findViewById(R.id.spinnerCar)
             val spinnerStudent : Spinner = findViewById(R.id.spinnerStudent)
 
-            val selectedClass   = this.classVals.get(spinnerClass.selectedItemId.toInt())
-            val selectedCar     = this.carVals.get(spinnerCar.selectedItemId.toInt())
-            val selectedStudent = this.studentVals.get(spinnerStudent.selectedItemId.toInt())
+            val selectedClass   = this.classVals[spinnerClass.selectedItemId.toInt()]
+            val selectedCar     = this.carVals[spinnerCar.selectedItemId.toInt()]
+            val selectedStudent = this.studentVals[spinnerStudent.selectedItemId.toInt()]
+
+            getLastLoc()
+
+//            writeInternalFile(selectedClass, selectedCar, selectedStudent)
 
             Snackbar.make(view, "Values: class? $selectedClass, car? $selectedCar, student? $selectedStudent", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -152,6 +169,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Save FAB preparation - END
     }
 
+    private fun writeInternalFile(testerClass : Int, car : Int, student : Int) {
+        val filename = "$testerClass-$car-$student-training"
+        val dateTime = java.util.Calendar.getInstance()
+        val fileContents = "${dateTime.time} - Start location tracker"
+        this.openFileOutput(filename, Context.MODE_PRIVATE).use {
+            it.write(fileContents.toByteArray())
+        }
+
+        val fis = openFileInput(filename)
+        val isr = InputStreamReader(fis)
+        val bufferedReader = BufferedReader(isr)
+        val sb = StringBuilder()
+        var line : String?
+
+        do {
+            var isNotNull = false
+            line = bufferedReader.readLine()
+            if (line !== null) {
+                isNotNull = true
+                sb.append(line);
+            }
+
+        } while (isNotNull)
+
+
+        println("ADZ FILE_CONTENT : $sb")
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -171,7 +216,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mMap.addMarker(MarkerOptions().position(myLoc).title("Current Loc Marker"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc))
 
-        getLastLoc()
+
 
     }
 
@@ -185,6 +230,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             val thisActivity = this
             mainHandler.post(object : Runnable {
+                @SuppressLint("MissingPermission")
                 override fun run() {
                     fusedLocationClient = LocationServices.getFusedLocationProviderClient(thisActivity)
                     fusedLocationClient.lastLocation
@@ -192,6 +238,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             // Got last known location. In some rare situations this can be null.
                             println("ADZ Location : ${location?.latitude} , ${location?.longitude}")
                         }
+
                     mainHandler.postDelayed(this, 5000)
                 }
             })
