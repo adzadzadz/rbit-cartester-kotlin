@@ -70,7 +70,7 @@ class Client {
         })
     }
 
-    fun uploadData(name : String, data : String) {
+    fun uploadData(activity: MainActivity, view : View, name : String, data : String) {
         val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
         val call = api.uploadData("Bearer $loginInfo", name, data)
 
@@ -82,11 +82,17 @@ class Client {
                 if (body?.status?.code == 200) {
                     println("ADZ REQ SUCCESS")
                     println("ADZ REQ : RESPONSE : ${body.result}")
+                    if (body.result != null) {
+                        activity.deleteFile(body.result.toString())
+                    }
 
                 } else {
                     println("ADZ REQ FAILED")
 
                 }
+
+                Snackbar.make(view, "Everything has been synced.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
             }
 
             override fun onFailure(call: Call<Generic>, t: Throwable) {

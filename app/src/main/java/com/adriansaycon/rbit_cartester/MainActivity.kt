@@ -47,10 +47,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var locationCallback: LocationCallback
     private lateinit var testName: String
     /**
-     * The filename for the list of files stored internally
-     */
-    val savedFilesListFilename = "saved_tester_files"
-    /**
      * The filename for the stored required data (Class, Car, Student)
      */
     val savedRequiredDataFilename = "required_form_data_contents"
@@ -87,30 +83,30 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.setNavigationItemSelectedListener(this)
     }
 
-    override fun onBackPressed() {
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            drawerLayout.closeDrawer(GravityCompat.START)
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
+//
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        menuInflater.inflate(R.menu.main, menu)
+//        return true
+//    }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        return when (item.itemId) {
+//            R.id.action_settings -> true
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
@@ -366,6 +362,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // UI changes
         val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
         fabStart.isEnabled = false
+        fabStart.hide()
         val formWrap : ScrollView = findViewById(R.id.formWrap)
         formWrap.visibility = View.INVISIBLE
         Snackbar.make(view, "Location tracker running.", Snackbar.LENGTH_LONG)
@@ -377,6 +374,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
         fabStart.isEnabled = true
+        fabStart.show()
 
         Snackbar.make(view, "Location tracker paused.", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
@@ -403,6 +401,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
         fabStart.isEnabled = true
+        fabStart.show()
 
         Snackbar.make(view, "Location tracker stopped. File saved.", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
@@ -423,7 +422,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 println("ADZ : CONVERT : TRAINING_FILE : ${it.name}")
                 val fileString = readInternalFile(it.name)
                 println("ADZ : CONVERT : TRAINING_FILE : CONTENT $fileString")
-                client.uploadData(it.name, fileString.toString())
+                client.uploadData(this, findViewById(R.id.fabStart), it.name, fileString.toString())
             }
         }
 

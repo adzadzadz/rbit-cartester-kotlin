@@ -82,23 +82,27 @@
             android:layout_height="wrap_content"
             android:clickable="true" app:srcCompat="@android:drawable/ic_media_play"
             android:id="@+id/fabStart"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="104dp"
-            android:layout_marginBottom="48dp" app:layout_constraintBottom_toBottomOf="parent"
-            android:focusable="true"/>
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+            android:layout_marginBottom="60dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:focusable="true" android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.3"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true" app:srcCompat="@android:drawable/ic_media_pause"
-            android:id="@+id/fabPause" app:layout_constraintEnd_toStartOf="@+id/fabSave"
-            android:layout_marginEnd="8dp" app:layout_constraintStart_toEndOf="@+id/fabStart"
-            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.473"
-            android:layout_marginBottom="48dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:focusable="true"/>
+            android:id="@+id/fabPause"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="60dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:focusable="true"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+    />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true" app:srcCompat="@android:drawable/presence_busy"
             android:id="@+id/fabSave" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="104dp" android:layout_marginBottom="48dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:focusable="true"/>
+            android:layout_marginEnd="8dp" android:layout_marginBottom="60dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:focusable="true" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.7"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
