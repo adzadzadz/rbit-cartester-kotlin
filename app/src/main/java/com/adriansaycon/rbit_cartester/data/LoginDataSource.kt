@@ -12,6 +12,7 @@ class LoginDataSource {
     fun login(body: Login?): Result<LoggedInUser> {
         return try {
             val user = LoggedInUser(body?.result?.token.toString(), body?.result?.userId.toString(), body?.result?.displayName.toString())
+            println("ADZ : $user")
             Result.Success(user)
         } catch (e: Throwable) {
             Result.Error(IOException("Error logging in", e))
