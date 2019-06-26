@@ -10,11 +10,11 @@ import java.io.IOException
 class LoginDataSource {
 
     fun login(body: Login?): Result<LoggedInUser> {
-        try {
+        return try {
             val user = LoggedInUser(body?.result?.token.toString(), body?.result?.userId.toString(), body?.result?.displayName.toString())
-            return Result.Success(user)
+            Result.Success(user)
         } catch (e: Throwable) {
-            return Result.Error(IOException("Error logging in", e))
+            Result.Error(IOException("Error logging in", e))
         }
     }
 

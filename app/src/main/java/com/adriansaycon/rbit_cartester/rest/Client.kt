@@ -17,12 +17,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Callback
 import retrofit2.Call
 import retrofit2.Response
-
+import java.net.InetAddress
 
 
 class Client {
 
-    private val baseUrl = "http://10.0.2.2:8080/rest/v1/app/"
+    private val baseUrl = "http://cartester.rbit.makersph.com/rest/v1/app/"
+//    private val baseUrl = "http://10.0.2.2:8080/rest/v1/app/"
 
     private val api : Api by lazy {
         val retrofit = Retrofit.Builder()
@@ -30,6 +31,7 @@ class Client {
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
         return@lazy retrofit.create(Api::class.java)
     }
 
@@ -41,9 +43,9 @@ class Client {
      */
     fun login(username : String, password : String, loginViewModel: LoginViewModel, loading: ProgressBar) {
         println("Starting Adz $api")
-
         val call = api.home(username, password)
 
+        println("ADZ: WAITING RESPONSE : START")
         call.enqueue(object : Callback<Login> {
 
             override fun onResponse(call: Call<Login>, response: Response<Login>) {

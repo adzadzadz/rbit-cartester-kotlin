@@ -132,16 +132,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun readyForm(): Boolean {
         val gson = Gson()
+
         var result : Required
         val file : File = this.getFileStreamPath(savedRequiredDataFilename)
         if(!file.exists()) {
             val client = Client()
             client.getRequiredData(this, findViewById(R.id.appCoordinatorLayout))
             return false
-        } else {
-            val stringContent = readInternalFile("required_form_data_contents")
-             result = gson.fromJson(stringContent.toString(), Required::class.java)
         }
+
+        val stringContent = readInternalFile("required_form_data_contents")
+        result = gson.fromJson(stringContent.toString(), Required::class.java)
 
         // Class preparation
         val classList = arrayListOf<String>()
@@ -153,8 +154,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val spinnerClass: Spinner = findViewById(R.id.spinnerClass)
         val aaClass = ArrayAdapter(this, android.R.layout.simple_spinner_item, classList)
         aaClass.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        spinnerClass.prompt = "Select Class"
         spinnerClass.adapter = aaClass
         // Class preparation - END
 
@@ -168,23 +167,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val spinnerCar: Spinner = findViewById(R.id.spinnerCar)
         val aaCar = ArrayAdapter(this, android.R.layout.simple_spinner_item, carList)
         aaCar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        spinnerCar.prompt = "Select Class"
         spinnerCar.adapter = aaCar
         // Car preparation - END
 
         // Student preparation
         val studentList = arrayListOf<String>()
         result.users.forEach {
-            studentList.add(it.name)
+            if (it.name == null) {
+                studentList.add("UID: ${it.userId}")
+            } else {
+                studentList.add(it.name)
+            }
             studentVals.add(it.userId)
         }
 
         val spinnerStudent: Spinner = findViewById(R.id.spinnerStudent)
         val aaStudent = ArrayAdapter(this, android.R.layout.simple_spinner_item, studentList)
-        aaCar.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        spinnerStudent.prompt = "Select Class"
+        aaStudent.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerStudent.adapter = aaStudent
         // Student preparation - END
 
