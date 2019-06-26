@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-60:12
-INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-60:12
-INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-60:12
-INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-60:12
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-62:12
+INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-62:12
+INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-62:12
+INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-62:12
 MERGED from [com.google.android.material:material:1.0.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\951df06194a9fc2c4f079105885ea48f\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.0.2] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\dee83a9ddf5c425cbbac5ce903e1a518\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core-ktx:1.0.2] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\ab2057cd3a767db19fa7e6bf31400d2c\AndroidManifest.xml:2:1-7:12
@@ -47,35 +47,35 @@ MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\User
 MERGED from [androidx.print:print:1.0.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\4fc0f325efe953a875ebd75e604951e8\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\e595556add1bb63821f6ff55a1ab7eab\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\455c6087f592dd3c48fe0daf6a18875f\AndroidManifest.xml:2:1-11:12
-INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-60:12
-INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-60:12
-INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-60:12
+INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-62:12
+INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-62:12
+INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-62:12
 	package
 		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:3:11-52
 		INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml
 		INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-60:12
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-62:12
 		INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-60:12
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:1-62:12
 		INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:2:11-69
-uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:9:5-78
-	android:name
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:9:22-76
 uses-permission#android.permission.INTERNET
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:10:5-67
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:9:5-66
 MERGED from [com.google.android.gms:play-services-maps:16.1.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\367bf5c184eef5e076bd4d01304fa742\AndroidManifest.xml:24:5-67
 MERGED from [com.google.android.gms:play-services-maps:16.1.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\367bf5c184eef5e076bd4d01304fa742\AndroidManifest.xml:24:5-67
 	android:name
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:10:22-64
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:9:22-64
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:10:5-78
+	android:name
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:10:22-76
 application
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:12:5-58:19
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:12:5-60:19
 MERGED from [com.google.android.material:material:1.0.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\951df06194a9fc2c4f079105885ea48f\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.0.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\951df06194a9fc2c4f079105885ea48f\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-maps:16.1.0] C:\Users\adzbi\.gradle\caches\transforms-2\files-2.1\367bf5c184eef5e076bd4d01304fa742\AndroidManifest.xml:30:5-36:19
@@ -105,19 +105,19 @@ MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\adzbi\.g
 	android:supportsRtl
 		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:18:13-39
 	android:label
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:16:13-45
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:15:13-45
 	android:roundIcon
 		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:17:13-58
 	android:icon
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:15:13-47
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:14:13-47
 	android:allowBackup
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:14:13-39
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:13:13-39
 	android:theme
 		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:19:13-44
 	android:networkSecurityConfig
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:13:13-73
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:16:13-73
 activity#com.adriansaycon.rbit_cartester.ui.login.LoginActivity
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:20:9-28:20
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:20:9-29:20
 	android:label
 		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:22:17-61
 	android:theme
@@ -125,45 +125,45 @@ ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\Android
 	android:name
 		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:21:17-55
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:24:13-27:29
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:24:13-28:29
 action#android.intent.action.MAIN
 ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:25:17-68
 	android:name
 		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:25:25-66
 category#android.intent.category.LAUNCHER
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:26:17-76
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:27:17-76
 	android:name
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:26:27-74
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:27:27-74
 activity#com.adriansaycon.rbit_cartester.MainActivity
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:29:9-37:20
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:30:9-39:20
 	android:label
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:31:17-60
-	android:theme
 		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:32:17-60
+	android:theme
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:33:17-60
 	android:name
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:30:17-45
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:31:17-45
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:33:13-36:29
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:34:13-38:29
 action#android.intent.action.VIEW
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:34:17-68
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:35:17-68
 	android:name
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:34:25-66
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:35:25-66
 category#android.intent.category.DEFAULT
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:35:17-75
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:37:17-75
 	android:name
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:35:27-73
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:37:27-73
 activity#com.adriansaycon.rbit_cartester.MapsActivity
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:38:9-45:20
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:40:9-48:20
 	android:label
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:40:17-60
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:42:17-60
 	android:name
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:39:17-45
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:41:17-45
 meta-data#com.google.android.geo.API_KEY
-ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:54:9-56:58
+ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:57:9-59:58
 	android:value
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:56:17-56
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:59:17-56
 	android:name
-		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:55:17-62
+		ADDED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml:58:17-62
 uses-sdk
 INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from Z:\Projects\freelance\rbit\rbit-cartester-kotlin\app\src\main\AndroidManifest.xml

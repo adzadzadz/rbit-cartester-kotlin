@@ -1,6 +1,7 @@
 package com.adriansaycon.rbit_cartester
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -20,6 +21,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ScrollView
 import android.widget.Spinner
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.adriansaycon.rbit_cartester.data.LoginDataSource
 import com.adriansaycon.rbit_cartester.rest.Client
@@ -35,6 +37,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
@@ -43,6 +46,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var testName: String
+    /**
+     * The filename for the list of files stored internally
+     */
+    val savedFilesListFilename = "saved_tester_files"
+    /**
+     * The filename for the stored required data (Class, Car, Student)
+     */
+    val savedRequiredDataFilename = "required_form_data_contents"
+    val accessFineLocationRequestCode = 143
 
     var classVals = arrayListOf<Int>()
     var carVals   = arrayListOf<Int>()
@@ -55,7 +67,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        // Prepare data required for car testing
         readyForm()
 
         // Map init - Start
@@ -109,10 +120,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Log.d("adz", "dashboard")
             }
             R.id.nav_sync -> {
-                val client = Client()
-                client.getRequiredData(this, findViewById(R.id.appCoordinatorLayout))
-                Snackbar.make(findViewById(R.id.fabStart), "Syncing data.", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                runSync()
             }
             R.id.nav_logout -> {
                 val source = LoginDataSource()
@@ -126,10 +134,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    fun readyForm() {
+    fun readyForm(): Boolean {
         val gson = Gson()
-        val stringContent = readInternalFile("required_form_data_contents")
-        val result : Required = gson.fromJson(stringContent.toString(), Required::class.java)
+        var result : Required
+        val file : File = this.getFileStreamPath(savedRequiredDataFilename)
+        if(!file.exists()) {
+            val client = Client()
+            client.getRequiredData(this, findViewById(R.id.appCoordinatorLayout))
+            return false
+        } else {
+            val stringContent = readInternalFile("required_form_data_contents")
+             result = gson.fromJson(stringContent.toString(), Required::class.java)
+        }
 
         // Class preparation
         val classList = arrayListOf<String>()
@@ -176,28 +192,75 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         spinnerStudent.adapter = aaStudent
         // Student preparation - END
 
-        // Start FAB preparation
-        val start: FloatingActionButton = findViewById(R.id.fabStart)
-        start.setOnClickListener { view ->
-            runStart(view)
-        }
-        // Pause FAB preparation
-        val pause: FloatingActionButton = findViewById(R.id.fabPause)
-        pause.setOnClickListener { view ->
-            runPause(view)
-        }
-        // Save FAB preparation
-        val save: FloatingActionButton = findViewById(R.id.fabSave)
-        save.setOnClickListener { view ->
-            runStop(view)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+            // Start FAB preparation
+            val start: FloatingActionButton = findViewById(R.id.fabStart)
+            start.setOnClickListener { view ->
+                runStart(view)
+            }
+            // Pause FAB preparation
+            val pause: FloatingActionButton = findViewById(R.id.fabPause)
+            pause.setOnClickListener { view ->
+                runPause(view)
+            }
+            // Save FAB preparation
+            val save: FloatingActionButton = findViewById(R.id.fabSave)
+            save.setOnClickListener { view ->
+                runStop(view)
 
+            }
+        } else {
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    accessFineLocationRequestCode)
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+        return true
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            accessFineLocationRequestCode -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    println("ADZ : wow, location permission approved.")
+                    readyForm()
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    println("ADZ : wow, location permission denied. Good for you!")
+                    Snackbar.make(findViewById(R.id.fabStart), "Well, we can't do anything now.", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+                return
+            }
+
+            // Add other 'when' lines to check for other
+            // permissions this app might request.
+            else -> {
+                // Ignore all other requests.
+            }
         }
     }
 
     fun writeInternalFile(filename: String?, content : String, mode : Int) {
         this.openFileOutput(filename, mode).use {
             it.write(content.toByteArray())
-
         }
     }
 
@@ -218,7 +281,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         } while (isNotNull)
 
-        println("ADZ FILE_CONTENT : $sb")
+//        println("ADZ FILE_CONTENT : $sb")
         return sb
     }
 
@@ -235,27 +298,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mMap = googleMap
     }
 
+    @SuppressLint("MissingPermission")
     private fun getLastLoc() {
         println("ADZ : this.getLastLoc()")
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
-
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            val request = LocationRequest()
-            request.interval = 5000
-            request.fastestInterval = 5000
-            request.priority = PRIORITY_HIGH_ACCURACY
-            fusedLocationClient.requestLocationUpdates(
-                request,
-                locationCallback,
-                null /* Looper */
-            )
-
-
-        } else {
-            println("ADZ : ACCESS_FINE_LOCATION not permitted")
-        }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        val request = LocationRequest()
+        request.interval = 5000
+        request.fastestInterval = 5000
+        request.priority = PRIORITY_HIGH_ACCURACY
+        fusedLocationClient.requestLocationUpdates(
+            request,
+            locationCallback,
+            null /* Looper */
+        )
     }
 
 
@@ -278,7 +333,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val selectedCar     = this.carVals[spinnerCar.selectedItemId.toInt()]
         val selectedStudent = this.studentVals[spinnerStudent.selectedItemId.toInt()]
 
-        testName = "$selectedClass-$selectedCar-$selectedStudent-training"
+        testName = "training-$selectedClass-$selectedCar-$selectedStudent"
+
+        // Write initial data for file
+        writeInternalFile(
+            testName ,
+            "start{ \"class_id\" : $selectedClass, \"car_id\" : $selectedCar, \"student_id\" : $selectedStudent, \"data\" : [",
+            Context.MODE_APPEND
+        )
 
         // Location management
         locationCallback = object : LocationCallback() {
@@ -288,7 +350,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     println("ADZ LOCATION : ${location.longitude} : ${location.latitude}")
                     writeInternalFile(
                         testName ,
-                        "{longitude : ${location.longitude}, latitude : ${location.latitude}}",
+                        "{ \"longitude\" : ${location.longitude}, \"latitude\" : ${location.latitude} },",
                         Context.MODE_APPEND
                     )
 
@@ -321,17 +383,51 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     /**
-     * After "Stop" the App should then save everything Offline and Prepare it for Upload.
+     * After "Stop" the App should then save everything Offline and Prepare it for UploadActivity.
      * Also, there should be a Field for Notices always available.
      */
     private fun runStop(view : View) {
         fusedLocationClient.removeLocationUpdates(locationCallback)
-        readInternalFile(testName)
+
+        // Close data file
+        writeInternalFile(
+            testName ,
+            "]}end",
+            Context.MODE_APPEND
+        )
+
+//        readInternalFile(testName)
 
         val formWrap : ScrollView = findViewById(R.id.formWrap)
         formWrap.visibility = View.VISIBLE
 
+        val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
+        fabStart.isEnabled = true
+
         Snackbar.make(view, "Location tracker stopped. File saved.", Snackbar.LENGTH_LONG)
+            .setAction("Action", null).show()
+    }
+
+    /**
+     * Syncs app from/to backend data
+     */
+    private fun runSync() {
+        val client = Client()
+        // Download required server data / Sync from server
+        client.getRequiredData(this, findViewById(R.id.appCoordinatorLayout))
+
+        // Upload cached data / Sync to server
+        val dir = this.filesDir
+        dir.listFiles().forEach {
+            if ("training" in it.name) {
+                println("ADZ : CONVERT : TRAINING_FILE : ${it.name}")
+                val fileString = readInternalFile(it.name)
+                println("ADZ : CONVERT : TRAINING_FILE : CONTENT $fileString")
+                client.uploadData(it.name, fileString.toString())
+            }
+        }
+
+        Snackbar.make(findViewById(R.id.fabStart), "Syncing data.", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
     }
 }

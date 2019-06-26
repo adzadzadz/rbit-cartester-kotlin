@@ -74,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
             //Complete and destroy login activity once successful
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("adzAuthenticated", true)
+            println("LOGIN_INFO : DID I MAKE IT HERE?")
             startActivity(intent)
             finish()
         })

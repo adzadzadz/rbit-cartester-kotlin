@@ -2,12 +2,10 @@ package com.adriansaycon.rbit_cartester.rest
 
 import android.content.Context
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.ProgressBar
-import android.widget.Spinner
 import com.adriansaycon.rbit_cartester.MainActivity
 import com.adriansaycon.rbit_cartester.R
-import com.adriansaycon.rbit_cartester.rest.data.Class
+import com.adriansaycon.rbit_cartester.rest.models.Generic
 import com.adriansaycon.rbit_cartester.rest.models.Login
 import com.adriansaycon.rbit_cartester.rest.models.Required
 import com.adriansaycon.rbit_cartester.ui.login.LoginViewModel
@@ -19,10 +17,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Callback
 import retrofit2.Call
 import retrofit2.Response
-import java.net.CookieManager
-import java.net.CookieStore
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 
@@ -53,19 +47,50 @@ class Client {
         call.enqueue(object : Callback<Login> {
 
             override fun onResponse(call: Call<Login>, response: Response<Login>) {
+                println("LOGIN_INFO : RESPONSE : START")
                 val body = response.body()
+                println("LOGIN_INFO : BODY READ")
                 if (body?.status?.code == 200) {
-                    android.webkit.CookieManager.getInstance().setCookie("LOGIN_INFO", body.result.token)
+                    println("LOGIN_INFO : STATUS CODE 200")
+                    android.webkit.CookieManager.getInstance().setCookie("LOGIN_INFO : RESPONSE : ", body.result.token)
                     loginViewModel.login(body, restResult = true)
                 } else {
+                    println("LOGIN_INFO : STATUS FAILED")
                     loginViewModel.login(body, restResult = false)
                     loading.visibility = View.GONE
 //                    println("Adz else : " + loginViewModel.loginFormState)
                 }
+                println("LOGIN_INFO : RESPONSE : END")
             }
 
             override fun onFailure(call: Call<Login>, t: Throwable) {
-                println("Adz onFailure : ")
+                println("LOGIN_INFO : RESPONSE : FAILED REQUEST")
+                t.printStackTrace()
+            }
+        })
+    }
+
+    fun uploadData(name : String, data : String) {
+        val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
+        val call = api.uploadData("Bearer $loginInfo", name, data)
+
+        call.enqueue(object : Callback<Generic> {
+
+            override fun onResponse(call: Call<Generic>, response: Response<Generic>) {
+                val body = response.body()
+
+                if (body?.status?.code == 200) {
+                    println("ADZ REQ SUCCESS")
+                    println("ADZ REQ : RESPONSE : ${body.result}")
+
+                } else {
+                    println("ADZ REQ FAILED")
+
+                }
+            }
+
+            override fun onFailure(call: Call<Generic>, t: Throwable) {
+                println("ADZ REQ FAILED ACCESS")
                 t.printStackTrace()
             }
         })
@@ -79,16 +104,18 @@ class Client {
         val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
         val call = api.requiredData("Bearer $loginInfo")
 
+        println("ADZ : GET REQUIRED DATA : START")
+
         call.enqueue(object : Callback<Required> {
 
             override fun onResponse(call: Call<Required>, response: Response<Required>) {
                 val body = response.body()
-
+                println("ADZ : GET REQUIRED DATA : RESPONSE : START")
                 if (body?.status?.code == 200) {
                     val gson = Gson()
                     val result = body.result
                     val content = gson.toJson(result)
-                    val filename = "required_form_data_contents"
+                    val filename = activity.savedRequiredDataFilename
                     activity.writeInternalFile(filename, content, Context.MODE_PRIVATE)
                     activity.readyForm()
 //                    activity.readInternalFile(filename)

@@ -5351,7 +5351,8 @@ public final class R {
     public static final int title_activity_login=0x7f0e0066;
     public static final int title_activity_main=0x7f0e0067;
     public static final int title_activity_maps=0x7f0e0068;
-    public static final int welcome=0x7f0e0069;
+    public static final int upload_data_cache=0x7f0e0069;
+    public static final int welcome=0x7f0e006a;
   }
   public static final class style {
     public static final int AlertDialog_AppCompat=0x7f0f0000;

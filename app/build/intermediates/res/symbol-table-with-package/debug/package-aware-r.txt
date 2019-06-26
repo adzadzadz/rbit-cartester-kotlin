@@ -1540,6 +1540,7 @@ string status_bar_notification_info_overflow
 string title_activity_login
 string title_activity_main
 string title_activity_maps
+string upload_data_cache
 string welcome
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
