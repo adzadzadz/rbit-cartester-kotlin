@@ -79,6 +79,7 @@ class Client {
     fun uploadData(activity: MainActivity, view : View, name : String, data : String) {
         val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
         val call = api.uploadData("Bearer $loginInfo", name, data)
+        println("DATAUP : $data")
 
         call.enqueue(object : Callback<Generic> {
 

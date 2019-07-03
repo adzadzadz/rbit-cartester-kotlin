@@ -5,8 +5,8 @@
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent">
     <ScrollView
-            android:layout_width="225dp"
-            android:layout_height="117dp"
+            android:layout_width="229dp"
+            android:layout_height="144dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:background="#1BFFFFFF" android:id="@+id/indicatorView"
     >

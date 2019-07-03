@@ -13,6 +13,9 @@
     <string name="spinner_class_title">Select Class</string>
     <string name="spinner_car_title">Select Car</string>
     <string name="spinner_student_title">Select Student</string>
+    <string name="button_add_note">Add Notes</string>
+    <string name="button_create_note">Create Note</string>
+    <string name="button_cancel_note">Cancel</string>
 
     <string name="upload_data_cache">Uploading Cached Data</string>
 
@@ -33,7 +36,7 @@
     <string name="menu_logout">Logout</string>
 
     <string name="title_activity_login">Sign in</string>
-    <string name="prompt_email">Email</string>
+    <string name="prompt_email">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>

@@ -1144,6 +1144,7 @@ id beginning
 id blocking
 id bottom
 id buttonPanel
+id cancelNoteButton
 id cancel_action
 id center
 id center_horizontal
@@ -1158,6 +1159,7 @@ id container
 id content
 id contentPanel
 id coordinator
+id createNoteButton
 id custom
 id customPanel
 id dark
@@ -1181,6 +1183,7 @@ id enterAlwaysCollapsed
 id exitUntilCollapsed
 id expand_activities_button
 id expanded_menu
+id fabNote
 id fabPause
 id fabSave
 id fabStart
@@ -1203,6 +1206,7 @@ id icon_group
 id icon_only
 id ifRoom
 id image
+id include
 id indicatorView
 id info
 id invisible
@@ -1235,6 +1239,8 @@ id navigation_header_container
 id never
 id none
 id normal
+id noteContent
+id noteWrap
 id notification_background
 id notification_main_column
 id notification_main_column_container
@@ -1486,6 +1492,9 @@ string action_sign_in_short
 string app_name
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
+string button_add_note
+string button_cancel_note
+string button_create_note
 string character_counter_content_description
 string character_counter_pattern
 string common_google_play_services_enable_button

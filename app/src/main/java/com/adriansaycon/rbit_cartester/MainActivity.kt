@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -20,12 +19,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.view.WindowManager
-import android.widget.ArrayAdapter
-import android.widget.ScrollView
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.adriansaycon.rbit_cartester.data.ActionStatus
 import com.adriansaycon.rbit_cartester.data.LoginDataSource
 import com.adriansaycon.rbit_cartester.rest.Client
 import com.adriansaycon.rbit_cartester.rest.data.Required
@@ -39,13 +37,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.live_indicator.*
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
@@ -55,6 +52,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var locationCallback: LocationCallback
     private lateinit var testName: String
     private lateinit var lastLoc: Location
+
+    // UI Objects
+    private lateinit var formWrap : ScrollView
+    private lateinit var liveIndicator : ScrollView
+    private lateinit var noteWrap : CardView
+    private lateinit var noteContent : EditText
+
+    private var lastNote : String? = null
+    private var isNoteOpened : Boolean = false
+    private var actionStatus : Int = 0
 
     /**
      * The filename for the stored required data (Class, Car, Student)
@@ -75,8 +82,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         readyForm()
-        val liveIndicator : ScrollView = findViewById(R.id.indicatorView)
-        liveIndicator.visibility = View.INVISIBLE
+        liveIndicator = findViewById(R.id.indicatorView)
+        formWrap = findViewById(R.id.formWrap)
+        noteWrap = findViewById(R.id.noteWrap)
+        noteContent = findViewById(R.id.noteContent)
+
+        noteWrap.visibility = View.GONE
+        liveIndicator.visibility = View.GONE
 
         // Map init - Start
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -204,20 +216,55 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             == PackageManager.PERMISSION_GRANTED) {
             // Start FAB preparation
             val start: FloatingActionButton = findViewById(R.id.fabStart)
-            start.setOnClickListener { view ->
-                runStart(view)
+            start.setOnClickListener {
+                runStart(noteWrap)
             }
             // Pause FAB preparation
             val pause: FloatingActionButton = findViewById(R.id.fabPause)
-            pause.setOnClickListener { view ->
-                runPause(view)
+            pause.setOnClickListener {
+                runPause(noteWrap)
             }
             // Save FAB preparation
             val save: FloatingActionButton = findViewById(R.id.fabSave)
-            save.setOnClickListener { view ->
-                runStop(view)
-
+            save.setOnClickListener {
+                runStop(noteWrap)
             }
+            val note: FloatingActionButton = findViewById(R.id.fabNote)
+            note.setOnClickListener {
+                if (!isNoteOpened) {
+                    formWrap.visibility = View.GONE
+                    noteWrap.visibility = View.VISIBLE
+                    isNoteOpened = true
+                } else {
+                    noteWrap.visibility = View.GONE
+                    isNoteOpened = false
+                    if (actionStatus !== 10) {
+                        formWrap.visibility = View.VISIBLE
+                    }
+
+                }
+            }
+            val cancelNoteButton   : Button = findViewById(R.id.cancelNoteButton)
+            cancelNoteButton.setOnClickListener {
+                if (actionStatus !== 10) {
+                    formWrap.visibility = View.VISIBLE
+                }
+                noteWrap.visibility = View.GONE
+                isNoteOpened = false
+            }
+            val createNoteButton   : Button = findViewById(R.id.createNoteButton)
+            createNoteButton.setOnClickListener {
+                if (actionStatus !== 10) {
+                    formWrap.visibility = View.VISIBLE
+                }
+                lastNote = noteContent.text.toString()
+                noteWrap.visibility = View.GONE
+                noteContent.text = null
+                isNoteOpened = false
+                Snackbar.make(findViewById(R.id.fabStart), "Note saved. Sync to upload to server.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+            }
+
         } else {
             // Permission is not granted
             // Should we show an explanation?
@@ -334,6 +381,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      */
     private fun runStart(view : View) {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        actionStatus = 10
         val spinnerClass : Spinner = findViewById(R.id.spinnerClass)
         val spinnerCar   : Spinner = findViewById(R.id.spinnerCar)
         val spinnerStudent : Spinner = findViewById(R.id.spinnerStudent)
@@ -352,7 +400,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         writeInternalFile(
             testName ,
             "start{ " +
-                        "\"date\" : \"$currentDate\"" +
+                        "\"date\" : \"$currentDate\", " +
                         "\"class_id\" : $selectedClass, " +
                         "\"car_id\" : $selectedCar, " +
                         "\"student_id\" : $selectedStudent, " +
@@ -365,15 +413,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
                 for (location in locationResult.locations){
-                    println("ADZ LOCATION : ${location.longitude} : ${location.latitude}")
+
                     writeInternalFile(
                         testName ,
                         "{ " +
-                                    "\"UTC\" : $epoch" +
+                                    "\"epoch\" : \"$epoch\", " +
                                     "\"longitude\" : ${location.longitude}, " +
-                                    "\"latitude\" : ${location.latitude} }, " ,
+                                    "\"latitude\" : ${location.latitude}, " +
+                                    "\"note\" : \"$lastNote\" },",
                         Context.MODE_APPEND
                     )
+
+                    // Clear note
+                    if (lastNote !== null) {
+                        lastNote = null
+                    }
 
                     val myLoc = LatLng(location.latitude, location.longitude)
 
@@ -400,15 +454,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
         fabStart.isEnabled = false
         fabStart.hide()
-        val formWrap : ScrollView = findViewById(R.id.formWrap)
-        formWrap.visibility = View.INVISIBLE
+        liveIndicator.visibility = View.VISIBLE
+        formWrap.visibility = View.GONE
+
         Snackbar.make(view, "Location tracker running.", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
-        val indicatorWrap : ScrollView = findViewById(R.id.indicatorView)
-        indicatorWrap.visibility = View.VISIBLE
     }
 
     private fun runPause(view : View) {
+        actionStatus = 5
         fusedLocationClient.removeLocationUpdates(locationCallback)
 
         val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
@@ -424,6 +478,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      * Also, there should be a Field for Notices always available.
      */
     private fun runStop(view : View) {
+        actionStatus = 0
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         fusedLocationClient.removeLocationUpdates(locationCallback)
 
@@ -436,10 +491,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 //        readInternalFile(testName)
 
-        val formWrap : ScrollView = findViewById(R.id.formWrap)
         formWrap.visibility = View.VISIBLE
-        val indicatorWrap : ScrollView = findViewById(R.id.indicatorView)
-        indicatorWrap.visibility = View.INVISIBLE
+        indicatorView.visibility = View.GONE
+        noteWrap.visibility = View.GONE
+        noteContent.visibility = View.GONE
+        isNoteOpened = false
+
         val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
         fabStart.isEnabled = true
         fabStart.show()
