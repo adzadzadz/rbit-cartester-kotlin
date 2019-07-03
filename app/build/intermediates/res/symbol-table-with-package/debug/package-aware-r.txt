@@ -1102,6 +1102,7 @@ drawable side_nav_bar
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 id ALT
+id AvgSpeedValue
 id CTRL
 id FUNCTION
 id FormTitle
@@ -1160,6 +1161,7 @@ id coordinator
 id custom
 id customPanel
 id dark
+id dateTimeValue
 id decor_content_parent
 id default_activity_button
 id design_bottom_sheet
@@ -1201,6 +1203,7 @@ id icon_group
 id icon_only
 id ifRoom
 id image
+id indicatorView
 id info
 id invisible
 id italic
@@ -1313,6 +1316,8 @@ id textStart
 id textView
 id textView2
 id textView4
+id textView5
+id textView8
 id text_input_password_toggle
 id textinput_counter
 id textinput_error
@@ -1409,6 +1414,7 @@ layout design_navigation_item_subheader
 layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_password_icon
+layout live_indicator
 layout mtrl_layout_snackbar
 layout mtrl_layout_snackbar_include
 layout nav_header_main
@@ -1507,6 +1513,9 @@ string google_maps_key
 string hide_bottom_view_on_scroll_behavior
 string invalid_password
 string invalid_username
+string live_indicator_date_label
+string live_indicator_loading
+string live_indicator_speed_label
 string login_failed
 string menu_dashboard
 string menu_gallery

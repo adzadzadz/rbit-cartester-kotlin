@@ -1380,12 +1380,12 @@
         "source": "C:\\Users\\adzbi\\.gradle\\caches\\transforms-2\\files-2.1\\dee83a9ddf5c425cbbac5ce903e1a518\\res\\drawable-mdpi-v4\\abc_list_longpressed_holo.9.png"
     },
     {
-        "merged": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_btn_check_material.xml.flat",
-        "source": "C:\\Users\\adzbi\\.gradle\\caches\\transforms-2\\files-2.1\\dee83a9ddf5c425cbbac5ce903e1a518\\res\\drawable\\abc_btn_check_material.xml"
-    },
-    {
         "merged": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\build\\intermediates\\res\\merged\\debug\\layout_actions_main.xml.flat",
         "source": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\src\\main\\res\\layout\\actions_main.xml"
+    },
+    {
+        "merged": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\build\\intermediates\\res\\merged\\debug\\drawable_abc_btn_check_material.xml.flat",
+        "source": "C:\\Users\\adzbi\\.gradle\\caches\\transforms-2\\files-2.1\\dee83a9ddf5c425cbbac5ce903e1a518\\res\\drawable\\abc_btn_check_material.xml"
     },
     {
         "merged": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\build\\intermediates\\res\\merged\\debug\\layout_abc_screen_simple.xml.flat",
@@ -1686,6 +1686,10 @@
     {
         "merged": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\build\\intermediates\\res\\merged\\debug\\drawable-v23_abc_control_background_material.xml.flat",
         "source": "C:\\Users\\adzbi\\.gradle\\caches\\transforms-2\\files-2.1\\dee83a9ddf5c425cbbac5ce903e1a518\\res\\drawable-v23\\abc_control_background_material.xml"
+    },
+    {
+        "merged": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\build\\intermediates\\res\\merged\\debug\\layout_live_indicator.xml.flat",
+        "source": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\src\\main\\res\\layout\\live_indicator.xml"
     },
     {
         "merged": "Z:\\Projects\\freelance\\rbit\\rbit-cartester-kotlin\\app\\build\\intermediates\\res\\merged\\debug\\drawable-ldrtl-hdpi-v17_abc_ic_menu_copy_mtrl_am_alpha.png.flat",

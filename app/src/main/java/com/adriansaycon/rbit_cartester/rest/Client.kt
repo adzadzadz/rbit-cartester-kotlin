@@ -22,8 +22,8 @@ import java.net.InetAddress
 
 class Client {
 
-    private val baseUrl = "https://cartester.rbit.makersph.com/rest/v1/app/"
-    // private val baseUrl = "http://10.0.2.2:8080/rest/v1/app/"
+//    private val baseUrl = "https://cartester.rbit.makersph.com/rest/v1/app/"
+     private val baseUrl = "http://10.0.2.2:8080/rest/v1/app/"
 
     private val api : Api by lazy {
         val retrofit = Retrofit.Builder()
@@ -72,6 +72,10 @@ class Client {
         })
     }
 
+    /**
+     * uploads user locations data
+     * @void
+     */
     fun uploadData(activity: MainActivity, view : View, name : String, data : String) {
         val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
         val call = api.uploadData("Bearer $loginInfo", name, data)
@@ -112,13 +116,11 @@ class Client {
         val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
         val call = api.requiredData("Bearer $loginInfo")
 
-        println("ADZ : GET REQUIRED DATA : START")
-
         call.enqueue(object : Callback<Required> {
 
             override fun onResponse(call: Call<Required>, response: Response<Required>) {
                 val body = response.body()
-                println("ADZ : GET REQUIRED DATA : RESPONSE : START")
+                println("ADZ : GET REQUIRED DATA : RESPONSE : $body")
                 if (body?.status?.code == 200) {
                     val gson = Gson()
                     val result = body.result

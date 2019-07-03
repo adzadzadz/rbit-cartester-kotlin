@@ -10,12 +10,12 @@
         tools:context=".Main">
 
     <fragment
-              xmlns:map="http://schemas.android.com/apk/res-auto"
-              android:layout_width="436dp"
-              android:layout_height="676dp"
-              android:id="@+id/map"
-              tools:context=".MapsActivity"
-              android:name="com.google.android.gms.maps.SupportMapFragment" tools:layout_editor_absoluteY="-1dp"
-              map:layout_constraintEnd_toEndOf="parent"/>
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            android:layout_width="433dp"
+            android:layout_height="775dp"
+            android:id="@+id/map"
+            tools:context=".MapsActivity"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            tools:layout_editor_absoluteY="0dp" tools:layout_editor_absoluteX="-22dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

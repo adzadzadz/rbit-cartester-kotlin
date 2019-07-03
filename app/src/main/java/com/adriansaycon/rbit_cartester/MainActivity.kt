@@ -5,6 +5,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -16,11 +18,12 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.view.Menu
 import android.view.View
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.ScrollView
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.adriansaycon.rbit_cartester.data.LoginDataSource
@@ -39,6 +42,11 @@ import com.google.gson.Gson
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
@@ -46,11 +54,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var testName: String
+    private lateinit var lastLoc: Location
+
     /**
      * The filename for the stored required data (Class, Car, Student)
      */
     val savedRequiredDataFilename = "required_form_data_contents"
     val accessFineLocationRequestCode = 143
+    val configLocInterval : Long = 5000
 
     var classVals = arrayListOf<Int>()
     var carVals   = arrayListOf<Int>()
@@ -64,6 +75,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         readyForm()
+        val liveIndicator : ScrollView = findViewById(R.id.indicatorView)
+        liveIndicator.visibility = View.INVISIBLE
 
         // Map init - Start
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -83,14 +96,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.setNavigationItemSelectedListener(this)
     }
 
-//    override fun onBackPressed() {
-//        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-//        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//            drawerLayout.closeDrawer(GravityCompat.START)
-//        } else {
-//            super.onBackPressed()
-//        }
-//    }
+    override fun onBackPressed() {
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
 //
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {
 //        // Inflate the menu; this adds items to the action bar if it is present.
@@ -298,8 +311,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         println("ADZ : this.getLastLoc()")
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         val request = LocationRequest()
-        request.interval = 5000
-        request.fastestInterval = 5000
+        request.interval = configLocInterval
+        request.fastestInterval = configLocInterval
         request.priority = PRIORITY_HIGH_ACCURACY
         fusedLocationClient.requestLocationUpdates(
             request,
@@ -320,6 +333,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      * seconds, including GPS Speed and Time with Date.
      */
     private fun runStart(view : View) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         val spinnerClass : Spinner = findViewById(R.id.spinnerClass)
         val spinnerCar   : Spinner = findViewById(R.id.spinnerCar)
         val spinnerStudent : Spinner = findViewById(R.id.spinnerStudent)
@@ -329,11 +343,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val selectedStudent = this.studentVals[spinnerStudent.selectedItemId.toInt()]
 
         testName = "training-$selectedClass-$selectedCar-$selectedStudent"
+        val currentDate: String = DateFormat.getDateInstance().format(Calendar.getInstance().time)
+        val epoch = Calendar.getInstance().timeInMillis
+        val dateIndicator : TextView = findViewById(R.id.dateTimeValue)
+        val avgSpeedIndicator : TextView = findViewById(R.id.AvgSpeedValue)
 
         // Write initial data for file
         writeInternalFile(
             testName ,
-            "start{ \"class_id\" : $selectedClass, \"car_id\" : $selectedCar, \"student_id\" : $selectedStudent, \"data\" : [",
+            "start{ " +
+                        "\"date\" : \"$currentDate\"" +
+                        "\"class_id\" : $selectedClass, " +
+                        "\"car_id\" : $selectedCar, " +
+                        "\"student_id\" : $selectedStudent, " +
+                        "\"data\" : [",
             Context.MODE_APPEND
         )
 
@@ -345,13 +368,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     println("ADZ LOCATION : ${location.longitude} : ${location.latitude}")
                     writeInternalFile(
                         testName ,
-                        "{ \"longitude\" : ${location.longitude}, \"latitude\" : ${location.latitude} },",
+                        "{ " +
+                                    "\"UTC\" : $epoch" +
+                                    "\"longitude\" : ${location.longitude}, " +
+                                    "\"latitude\" : ${location.latitude} }, " ,
                         Context.MODE_APPEND
                     )
 
                     val myLoc = LatLng(location.latitude, location.longitude)
+
+                    // Avg Speed calc
+                    if (::lastLoc.isInitialized) {
+                        var distanceInMeters = lastLoc.distanceTo(location)
+                        var speed = distanceInMeters / configLocInterval
+                        avgSpeedIndicator.text = "${speed * 1000}kmh "
+                        var parser = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+                        parser.timeZone = TimeZone.getTimeZone("UTC")
+                        dateIndicator.text = "${parser.format(Date(epoch))}"
+                    }
+
                     mMap.addMarker(MarkerOptions().position(myLoc).title("Test route"))
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc))
+                    lastLoc = location
                 }
             }
         }
@@ -366,6 +404,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         formWrap.visibility = View.INVISIBLE
         Snackbar.make(view, "Location tracker running.", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
+        val indicatorWrap : ScrollView = findViewById(R.id.indicatorView)
+        indicatorWrap.visibility = View.VISIBLE
     }
 
     private fun runPause(view : View) {
@@ -384,6 +424,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      * Also, there should be a Field for Notices always available.
      */
     private fun runStop(view : View) {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         fusedLocationClient.removeLocationUpdates(locationCallback)
 
         // Close data file
@@ -397,7 +438,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val formWrap : ScrollView = findViewById(R.id.formWrap)
         formWrap.visibility = View.VISIBLE
-
+        val indicatorWrap : ScrollView = findViewById(R.id.indicatorView)
+        indicatorWrap.visibility = View.INVISIBLE
         val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
         fabStart.isEnabled = true
         fabStart.show()
