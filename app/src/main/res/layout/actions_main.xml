@@ -83,11 +83,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     <androidx.cardview.widget.CardView
-            android:layout_width="413dp"
-            android:layout_height="732dp"
+            android:layout_width="432dp"
+            android:layout_height="646dp"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/noteWrap">
+            android:id="@+id/noteWrap" app:cardBackgroundColor="#2DFFFFFF">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -116,8 +116,8 @@
                     app:layout_constraintBottom_toTopOf="@+id/noteContent"
                     app:layout_constraintVertical_bias="0.9"/>
             <EditText
-                    android:layout_width="412dp"
-                    android:layout_height="554dp"
+                    android:layout_width="405dp"
+                    android:layout_height="430dp"
                     android:inputType="textMultiLine"
                     android:gravity="start|top"
                     android:ems="10"
@@ -129,8 +129,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0"
-                    android:autofillHints="" app:layout_constraintHorizontal_bias="0.0"/>
+                    app:layout_constraintVertical_bias="0.478"
+                    android:autofillHints="" android:foregroundGravity="center"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton

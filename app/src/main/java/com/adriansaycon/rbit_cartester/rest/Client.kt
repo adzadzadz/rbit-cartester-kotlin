@@ -22,8 +22,8 @@ import java.net.InetAddress
 
 class Client {
 
-    private val baseUrl = "https://cartester.rbit.makersph.com/rest/v1/app/"
-//     private val baseUrl = "http://10.0.2.2:8080/rest/v1/app/"
+//    private val baseUrl = "https://cartester.rbit.makersph.com/rest/v1/app/"
+     private val baseUrl = "http://10.0.2.2:8080/rest/v1/app/"
 
     private val api : Api by lazy {
         val retrofit = Retrofit.Builder()
@@ -79,16 +79,16 @@ class Client {
     fun uploadData(activity: MainActivity, view : View, name : String, data : String) {
         val loginInfo = android.webkit.CookieManager.getInstance().getCookie("LOGIN_INFO")
         val call = api.uploadData("Bearer $loginInfo", name, data)
-        println("DATAUP : $data")
+
+        println("ADZ DATAU : $data")
 
         call.enqueue(object : Callback<Generic> {
 
             override fun onResponse(call: Call<Generic>, response: Response<Generic>) {
                 val body = response.body()
-
+                println("ADZ DATAM : $body")
                 if (body?.status?.code == 200) {
                     println("ADZ REQ SUCCESS")
-                    println("ADZ REQ : RESPONSE : ${body.result}")
                     if (body.result != null) {
                         activity.deleteFile(body.result.toString())
                     }

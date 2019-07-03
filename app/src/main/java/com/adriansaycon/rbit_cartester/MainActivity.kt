@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
@@ -109,6 +110,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onBackPressed() {
+
+        if (actionStatus != 0) {
+            runStop(findViewById((R.id.fabSave)))
+        }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -237,6 +243,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     isNoteOpened = true
                 } else {
                     noteWrap.visibility = View.GONE
+                    noteWrap.hideKeyboard()
                     isNoteOpened = false
                     if (actionStatus !== 10) {
                         formWrap.visibility = View.VISIBLE
@@ -246,19 +253,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             val cancelNoteButton   : Button = findViewById(R.id.cancelNoteButton)
             cancelNoteButton.setOnClickListener {
-                if (actionStatus !== 10) {
+                if (actionStatus === 0) {
                     formWrap.visibility = View.VISIBLE
                 }
                 noteWrap.visibility = View.GONE
+                noteWrap.hideKeyboard()
                 isNoteOpened = false
             }
             val createNoteButton   : Button = findViewById(R.id.createNoteButton)
             createNoteButton.setOnClickListener {
-                if (actionStatus !== 10) {
+                if (actionStatus === 0) {
                     formWrap.visibility = View.VISIBLE
                 }
                 lastNote = noteContent.text.toString()
                 noteWrap.visibility = View.GONE
+                noteWrap.hideKeyboard()
                 noteContent.text = null
                 isNoteOpened = false
                 Snackbar.make(findViewById(R.id.fabStart), "Note saved. Sync to upload to server.", Snackbar.LENGTH_LONG)
@@ -381,7 +390,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      */
     private fun runStart(view : View) {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        actionStatus = 10
         val spinnerClass : Spinner = findViewById(R.id.spinnerClass)
         val spinnerCar   : Spinner = findViewById(R.id.spinnerCar)
         val spinnerStudent : Spinner = findViewById(R.id.spinnerStudent)
@@ -396,17 +404,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val dateIndicator : TextView = findViewById(R.id.dateTimeValue)
         val avgSpeedIndicator : TextView = findViewById(R.id.AvgSpeedValue)
 
-        // Write initial data for file
-        writeInternalFile(
-            testName ,
-            "start{ " +
+        if (actionStatus === 0) {
+            // Write initial data for file
+            writeInternalFile(
+                testName ,
+                "start{ " +
                         "\"date\" : \"$currentDate\", " +
                         "\"class_id\" : $selectedClass, " +
                         "\"car_id\" : $selectedCar, " +
                         "\"student_id\" : $selectedStudent, " +
                         "\"data\" : [",
-            Context.MODE_APPEND
-        )
+                Context.MODE_APPEND
+            )
+        }
 
         // Location management
         locationCallback = object : LocationCallback() {
@@ -459,18 +469,22 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         Snackbar.make(view, "Location tracker running.", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
+
+        actionStatus = 10
     }
 
     private fun runPause(view : View) {
-        actionStatus = 5
-        fusedLocationClient.removeLocationUpdates(locationCallback)
+        if (actionStatus === 10) {
+            fusedLocationClient.removeLocationUpdates(locationCallback)
 
-        val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
-        fabStart.isEnabled = true
-        fabStart.show()
+            val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
+            fabStart.isEnabled = true
+            fabStart.show()
 
-        Snackbar.make(view, "Location tracker paused.", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show()
+            Snackbar.make(view, "Location tracker paused.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+            actionStatus = 5
+        }
     }
 
     /**
@@ -478,31 +492,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      * Also, there should be a Field for Notices always available.
      */
     private fun runStop(view : View) {
-        actionStatus = 0
-        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        fusedLocationClient.removeLocationUpdates(locationCallback)
+        if (actionStatus !== 0) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+            fusedLocationClient.removeLocationUpdates(locationCallback)
 
-        // Close data file
-        writeInternalFile(
-            testName ,
-            "]}end",
-            Context.MODE_APPEND
-        )
+            // Close data file
+            writeInternalFile(
+                testName ,
+                "]}end",
+                Context.MODE_APPEND
+            )
 
-//        readInternalFile(testName)
+            indicatorView.visibility = View.GONE
+            noteWrap.visibility = View.GONE
+            noteWrap.hideKeyboard()
+            formWrap.visibility = View.VISIBLE
+            isNoteOpened = false
 
-        formWrap.visibility = View.VISIBLE
-        indicatorView.visibility = View.GONE
-        noteWrap.visibility = View.GONE
-        noteContent.visibility = View.GONE
-        isNoteOpened = false
+            val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
+            fabStart.isEnabled = true
+            fabStart.show()
 
-        val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
-        fabStart.isEnabled = true
-        fabStart.show()
-
-        Snackbar.make(view, "Location tracker stopped. File saved.", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show()
+            Snackbar.make(view, "Location tracker stopped. File saved.", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+            actionStatus = 0
+        }
     }
 
     /**
@@ -526,5 +540,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         Snackbar.make(findViewById(R.id.fabStart), "Syncing data.", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
+    }
+
+    fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
     }
 }
