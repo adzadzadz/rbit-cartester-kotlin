@@ -433,8 +433,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                     // Avg Speed calc
                     if (::lastLoc.isInitialized) {
-                        var distanceInMeters = lastLoc.distanceTo(location)
-                        var speed = distanceInMeters / configLocInterval
+                        var distanceInMeters = lastLoc.distanceTo(location) * 1000
+                        var speed = distanceInMeters / ((configLocInterval / 60) / 60)
                         avgSpeedIndicator.text = "${speed * 1000}kmh "
                         var parser = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
                         parser.timeZone = TimeZone.getTimeZone("UTC")
