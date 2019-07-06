@@ -23,8 +23,8 @@ import java.net.InetAddress
 
 class Client {
 
-//    private val baseUrl = "https://cartester.rbit.makersph.com/rest/v1/app/"
-     private val baseUrl = "http://10.0.2.2:8080/rest/v1/app/"
+    private val baseUrl = "https://cartester.rbit.makersph.com/rest/v1/app/"
+//     private val baseUrl = "http://10.0.2.2:8080/rest/v1/app/"
 
     private val api : Api by lazy {
         val retrofit = Retrofit.Builder()

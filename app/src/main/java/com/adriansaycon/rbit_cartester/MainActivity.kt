@@ -43,12 +43,15 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.live_indicator.*
+import org.w3c.dom.Text
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import java.lang.StringBuilder
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
@@ -57,8 +60,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var locationCallback: LocationCallback
     private lateinit var testName: String
     private lateinit var trackerIntent: Intent
+    private lateinit var lastLoc: Location
 
     // UI Objects
+    private lateinit var fabNote : FloatingActionButton
     private lateinit var formWrap : ScrollView
     private lateinit var liveIndicator : ScrollView
     private lateinit var noteWrap : CardView
@@ -73,6 +78,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      */
     val savedRequiredDataFilename = "required_form_data_contents"
     val accessFineLocationRequestCode = 143
+    val configLocInterval = TrackerService().configLocInterval
 
     var classVals = arrayListOf<Int>()
     var carVals   = arrayListOf<Int>()
@@ -94,6 +100,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         formWrap = findViewById(R.id.formWrap)
         noteWrap = findViewById(R.id.noteWrap)
         noteContent = findViewById(R.id.noteContent)
+        fabNote = findViewById(R.id.fabNote)
+        fabNote.hide()
 
         noteWrap.visibility = View.GONE
         liveIndicator.visibility = View.GONE
@@ -242,6 +250,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             save.setOnClickListener {
                 runStop(noteWrap)
             }
+            // FAB Open Notes area
             val note: FloatingActionButton = findViewById(R.id.fabNote)
             note.setOnClickListener {
                 if (!isNoteOpened) {
@@ -258,6 +267,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 }
             }
+            // Cancel Note
             val cancelNoteButton   : Button = findViewById(R.id.cancelNoteButton)
             cancelNoteButton.setOnClickListener {
                 if (actionStatus === 0) {
@@ -267,12 +277,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 noteWrap.hideKeyboard()
                 isNoteOpened = false
             }
+            // Create Note
             val createNoteButton   : Button = findViewById(R.id.createNoteButton)
             createNoteButton.setOnClickListener {
                 if (actionStatus === 0) {
                     formWrap.visibility = View.VISIBLE
                 }
                 lastNote = noteContent.text.toString()
+                createNote()
                 noteWrap.visibility = View.GONE
                 noteWrap.hideKeyboard()
                 noteContent.text = null
@@ -329,6 +341,69 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    private fun createNote() {
+        writeInternalFile(
+            "$testName-notes",
+            "{\"epoch\" :\" ${Calendar.getInstance().timeInMillis}\", " +
+                    "\"note\" : \"${lastNote.toString()}\"},",
+            Context.MODE_APPEND
+        )
+    }
+
+
+    private fun startTrack() {
+        val avgSpeedIndicator : TextView = findViewById(R.id.AvgSpeedValue)
+        val dateIndicator : TextView = findViewById(R.id.dateTimeValue)
+
+        locationCallback = object : LocationCallback() {
+            @SuppressLint("SetTextI18n")
+            override fun onLocationResult(locationResult: LocationResult?) {
+                locationResult ?: return
+                for (location in locationResult.locations) {
+
+                    // Clear note
+                    if (lastNote !== null) {
+                        lastNote = null
+                    }
+
+                    val myLoc = LatLng(location.latitude, location.longitude)
+
+                    // Avg Speed calc
+                    if (::lastLoc.isInitialized) {
+                        var distanceInMeters = lastLoc.distanceTo(location) * 1000
+                        var speed = distanceInMeters / ((configLocInterval / 60) / 60)
+                        avgSpeedIndicator.text = "${(speed * 1000).roundToInt()} kmh "
+                        var parser = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+                        parser.timeZone = TimeZone.getTimeZone("UTC")
+                        dateIndicator.text = parser.format(Date(Calendar.getInstance().timeInMillis))
+                    }
+
+                    println("ADZ : LOCATIONS : RUNNING WOOOOT")
+                    mMap.addMarker(MarkerOptions().position(myLoc).title("Test route"))
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc))
+                    lastLoc = location
+                }
+            }
+        }
+
+        getLastLoc()
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLoc() {
+        println("ADZ : this.getLastLoc()")
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        val request = LocationRequest()
+        request.interval = configLocInterval
+        request.fastestInterval = configLocInterval
+        request.priority = PRIORITY_HIGH_ACCURACY
+        fusedLocationClient.requestLocationUpdates(
+            request,
+            locationCallback,
+            null /* Looper */
+        )
+    }
+
 
     /**
      * Quick Selection of "Person; Car; Tester; Class; Location of the Test"
@@ -352,9 +427,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         testName = "training-$selectedClass-$selectedCar-$selectedStudent"
         val currentDate: String = DateFormat.getDateInstance().format(Calendar.getInstance().time)
-        // val epoch = Calendar.getInstance().timeInMillis
-        val dateIndicator : TextView = findViewById(R.id.dateTimeValue)
-        val avgSpeedIndicator : TextView = findViewById(R.id.AvgSpeedValue)
 
         if (actionStatus === 0) {
             // Write initial data for file
@@ -379,6 +451,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             } else {
                 ContextCompat.startForegroundService(this, intent)
             }
+            startTrack()
         }
         println("ADZ : LOCATION : ACTION : START")
 
@@ -388,6 +461,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fabStart.hide()
         liveIndicator.visibility = View.VISIBLE
         formWrap.visibility = View.GONE
+        fabNote.show()
 
         Snackbar.make(view, "Location tracker running.", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
@@ -400,6 +474,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             trackerIntent.action = "pauseTracker"
             startService(trackerIntent)
+            fusedLocationClient.removeLocationUpdates(locationCallback)
 
             val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
             fabStart.isEnabled = true
@@ -421,14 +496,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             trackerIntent.action = "stopTracker"
             startService(trackerIntent)
+            fusedLocationClient.removeLocationUpdates(locationCallback)
 
-            // Close data file
-            this.writeInternalFile(
-                testName ,
-                "]}end",
-                Context.MODE_APPEND
-            )
+            val notes = this.readInternalFile("$testName-notes")
 
+            if (notes !== null) {
+                // Close data file
+                this.writeInternalFile(
+                    testName ,
+                    "],[$notes]}end",
+                    Context.MODE_APPEND
+                )
+            } else {
+                // Close data file
+                this.writeInternalFile(
+                    testName ,
+                    "]}end",
+                    Context.MODE_APPEND
+                )
+            }
+
+            // UI Changes
             indicatorView.visibility = View.GONE
             noteWrap.visibility = View.GONE
             noteWrap.hideKeyboard()
@@ -438,6 +526,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
             fabStart.isEnabled = true
             fabStart.show()
+            fabNote.hide()
 
             Snackbar.make(view, "Location tracker stopped. File saved.", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -457,10 +546,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val dir = this.filesDir
         dir.listFiles().forEach {
             if ("training" in it.name) {
-                println("ADZ : CONVERT : TRAINING_FILE : ${it.name}")
-                val fileString = this.readInternalFile(it.name)
-                println("ADZ : CONVERT : TRAINING_FILE : CONTENT $fileString")
-//                client.uploadData(this, findViewById(R.id.fabStart), it.name, fileString.toString())
+                if ("notes" !in it.name) {
+                    println("ADZ : CONVERT : TRAINING_FILE : ${it.name}")
+                    val fileString = this.readInternalFile(it.name)
+                    println("ADZ : CONVERT : TRAINING_FILE : CONTENT $fileString")
+                    client.uploadData(this, findViewById(R.id.fabStart), it.name, fileString.toString())
+                }
             }
         }
 

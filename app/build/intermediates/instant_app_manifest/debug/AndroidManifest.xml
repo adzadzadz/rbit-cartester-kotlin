@@ -34,11 +34,6 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
-        <service
-            android:name="com.adriansaycon.rbit_cartester.MyIntentService"
-            android:exported="false" >
-        </service>
-
         <activity
             android:name="com.adriansaycon.rbit_cartester.ui.login.LoginActivity"
             android:label="@string/title_activity_main"
