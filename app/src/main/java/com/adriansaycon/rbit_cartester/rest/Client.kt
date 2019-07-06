@@ -9,6 +9,7 @@ import com.adriansaycon.rbit_cartester.rest.models.Generic
 import com.adriansaycon.rbit_cartester.rest.models.Login
 import com.adriansaycon.rbit_cartester.rest.models.Required
 import com.adriansaycon.rbit_cartester.ui.login.LoginViewModel
+import com.adriansaycon.rbit_cartester.writeInternalFile
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
@@ -22,8 +23,8 @@ import java.net.InetAddress
 
 class Client {
 
-    private val baseUrl = "https://cartester.rbit.makersph.com/rest/v1/app/"
-//     private val baseUrl = "http://10.0.2.2:8080/rest/v1/app/"
+//    private val baseUrl = "https://cartester.rbit.makersph.com/rest/v1/app/"
+     private val baseUrl = "http://10.0.2.2:8080/rest/v1/app/"
 
     private val api : Api by lazy {
         val retrofit = Retrofit.Builder()

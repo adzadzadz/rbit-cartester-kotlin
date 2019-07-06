@@ -2,11 +2,14 @@ package com.adriansaycon.rbit_cartester
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
+import android.app.PendingIntent.getActivity
+import android.app.Service
+import android.content.*
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +27,7 @@ import android.widget.*
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.adriansaycon.rbit_cartester.data.ActionStatus
 import com.adriansaycon.rbit_cartester.data.LoginDataSource
 import com.adriansaycon.rbit_cartester.rest.Client
@@ -52,7 +56,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var testName: String
-    private lateinit var lastLoc: Location
+    private lateinit var trackerIntent: Intent
 
     // UI Objects
     private lateinit var formWrap : ScrollView
@@ -69,11 +73,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      */
     val savedRequiredDataFilename = "required_form_data_contents"
     val accessFineLocationRequestCode = 143
-    val configLocInterval : Long = 5000
 
     var classVals = arrayListOf<Int>()
     var carVals   = arrayListOf<Int>()
     var studentVals = arrayListOf<Int>()
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -172,7 +179,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             return false
         }
 
-        val stringContent = readInternalFile("required_form_data_contents")
+        val stringContent = this.readInternalFile("required_form_data_contents")
         result = gson.fromJson(stringContent.toString(), Required::class.java)
 
         // Class preparation
@@ -322,61 +329,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    fun writeInternalFile(filename: String?, content : String, mode : Int) {
-        this.openFileOutput(filename, mode).use {
-            it.write(content.toByteArray())
-        }
-    }
-
-    fun readInternalFile(filename : String?): StringBuilder {
-        val fis = openFileInput(filename)
-        val isr = InputStreamReader(fis)
-        val bufferedReader = BufferedReader(isr)
-        val sb = StringBuilder()
-        var line : String?
-
-        do {
-            var isNotNull = false
-            line = bufferedReader.readLine()
-            if (line !== null) {
-                isNotNull = true
-                sb.append(line);
-            }
-
-        } while (isNotNull)
-
-//        println("ADZ FILE_CONTENT : $sb")
-        return sb
-    }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun getLastLoc() {
-        println("ADZ : this.getLastLoc()")
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        val request = LocationRequest()
-        request.interval = configLocInterval
-        request.fastestInterval = configLocInterval
-        request.priority = PRIORITY_HIGH_ACCURACY
-        fusedLocationClient.requestLocationUpdates(
-            request,
-            locationCallback,
-            null /* Looper */
-        )
-    }
-
 
     /**
      * Quick Selection of "Person; Car; Tester; Class; Location of the Test"
@@ -400,13 +352,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         testName = "training-$selectedClass-$selectedCar-$selectedStudent"
         val currentDate: String = DateFormat.getDateInstance().format(Calendar.getInstance().time)
-        val epoch = Calendar.getInstance().timeInMillis
+        // val epoch = Calendar.getInstance().timeInMillis
         val dateIndicator : TextView = findViewById(R.id.dateTimeValue)
         val avgSpeedIndicator : TextView = findViewById(R.id.AvgSpeedValue)
 
         if (actionStatus === 0) {
             // Write initial data for file
-            writeInternalFile(
+            this.writeInternalFile(
                 testName ,
                 "start{ " +
                         "\"date\" : \"$currentDate\", " +
@@ -418,47 +370,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             )
         }
 
-        // Location management
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult?) {
-                locationResult ?: return
-                for (location in locationResult.locations){
-
-                    writeInternalFile(
-                        testName ,
-                        "{ " +
-                                    "\"epoch\" : \"$epoch\", " +
-                                    "\"longitude\" : ${location.longitude}, " +
-                                    "\"latitude\" : ${location.latitude}, " +
-                                    "\"note\" : \"$lastNote\" },",
-                        Context.MODE_APPEND
-                    )
-
-                    // Clear note
-                    if (lastNote !== null) {
-                        lastNote = null
-                    }
-
-                    val myLoc = LatLng(location.latitude, location.longitude)
-
-                    // Avg Speed calc
-                    if (::lastLoc.isInitialized) {
-                        var distanceInMeters = lastLoc.distanceTo(location) * 1000
-                        var speed = distanceInMeters / ((configLocInterval / 60) / 60)
-                        avgSpeedIndicator.text = "${speed * 1000}kmh "
-                        var parser = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-                        parser.timeZone = TimeZone.getTimeZone("UTC")
-                        dateIndicator.text = "${parser.format(Date(epoch))}"
-                    }
-
-                    mMap.addMarker(MarkerOptions().position(myLoc).title("Test route"))
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(myLoc))
-                    lastLoc = location
-                }
+        trackerIntent = Intent(this, TrackerService::class.java)
+        trackerIntent.also { intent ->
+            intent.putExtra("testName", testName)
+            intent.action = "startTracker"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(intent)
+            } else {
+                ContextCompat.startForegroundService(this, intent)
             }
         }
-        // Location tracker
-        getLastLoc()
+        println("ADZ : LOCATION : ACTION : START")
 
         // UI changes
         val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
@@ -475,7 +397,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun runPause(view : View) {
         if (actionStatus === 10) {
-            fusedLocationClient.removeLocationUpdates(locationCallback)
+
+            trackerIntent.action = "pauseTracker"
+            startService(trackerIntent)
 
             val fabStart : FloatingActionButton = findViewById(R.id.fabStart)
             fabStart.isEnabled = true
@@ -494,10 +418,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun runStop(view : View) {
         if (actionStatus !== 0) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-            fusedLocationClient.removeLocationUpdates(locationCallback)
+
+            trackerIntent.action = "stopTracker"
+            startService(trackerIntent)
 
             // Close data file
-            writeInternalFile(
+            this.writeInternalFile(
                 testName ,
                 "]}end",
                 Context.MODE_APPEND
@@ -532,9 +458,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         dir.listFiles().forEach {
             if ("training" in it.name) {
                 println("ADZ : CONVERT : TRAINING_FILE : ${it.name}")
-                val fileString = readInternalFile(it.name)
+                val fileString = this.readInternalFile(it.name)
                 println("ADZ : CONVERT : TRAINING_FILE : CONTENT $fileString")
-                client.uploadData(this, findViewById(R.id.fabStart), it.name, fileString.toString())
+//                client.uploadData(this, findViewById(R.id.fabStart), it.name, fileString.toString())
             }
         }
 
